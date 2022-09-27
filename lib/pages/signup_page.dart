@@ -1,5 +1,4 @@
 import 'package:email_validator/email_validator.dart';
-
 import '../models/sign_up.dart';
 import '../repository/sign_up_repository.dart';
 import 'package:flutter/material.dart';

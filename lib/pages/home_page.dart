@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         appBar: AppBar(title: const Text("Home")),
         drawer: _buildDrawer(),
-        body: Container());
+        body: Container(child: _buildChart()));
   }
 
   Widget _buildDrawer() {
@@ -105,35 +105,35 @@ class _HomePageState extends State<HomePage> {
   Widget _buildChart() {
     return SfCartesianChart(
         margin:
-            const EdgeInsets.only(top: 60, left: 40, right: 40, bottom: 100),
+        const EdgeInsets.only(top: 60, left: 40, right: 40, bottom: 100),
         primaryXAxis: CategoryAxis(),
         // Chart title
-        title: ChartTitle(text: 'Monthly Covid-19 Infections'),
+        title: ChartTitle(text: 'Soja exportada por mês'),
         // Enable legend
         legend: Legend(isVisible: true),
         // Enable tooltip
         tooltipBehavior: TooltipBehavior(enable: true),
-        series: <ChartSeries<_Infections, String>>[
-          LineSeries<_Infections, String>(
-              dataSource: <_Infections>[
-                _Infections('Jan', 35000),
-                _Infections('Feb', 28000),
-                _Infections('Mar', 34000),
-                _Infections('Apr', 32000),
-                _Infections('May', 40000),
-                _Infections('Jun', 60000)
+        series: <ChartSeries<_Plantacao, String>>[
+          LineSeries<_Plantacao, String>(
+              dataSource: <_Plantacao>[
+                _Plantacao('Jan', 35000),
+                _Plantacao('Feb', 28000),
+                _Plantacao('Mar', 34000),
+                _Plantacao('Apr', 32000),
+                _Plantacao('May', 40000),
+                _Plantacao('Jun', 60000)
               ],
-              xValueMapper: (_Infections victims, _) => victims.year,
-              yValueMapper: (_Infections victims, _) => victims.victims,
+              xValueMapper: (_Plantacao soja, _) => soja.year,
+              yValueMapper: (_Plantacao soja, _) => soja.soja,
               // Enable data label
               dataLabelSettings: const DataLabelSettings(isVisible: true))
         ]);
   }
 }
 
-class _Infections {
-  _Infections(this.year, this.victims);
+class _Plantacao {
+  _Plantacao(this.year, this.soja);
 
   final String year;
-  final double victims;
+  final double soja;
 }
