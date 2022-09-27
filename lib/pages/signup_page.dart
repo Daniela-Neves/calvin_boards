@@ -1,3 +1,5 @@
+import 'package:email_validator/email_validator.dart';
+
 import '../models/sign_up.dart';
 import '../repository/sign_up_repository.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +16,8 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _signUpRepository = SignUpRepository();
-  late final _nomeController = TextEditingController();
+  final _scaniaIdController = TextEditingController();
+  final _nomeController = TextEditingController();
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   final _celularController = TextEditingController();
@@ -28,7 +31,7 @@ class _SignUpPageState extends State<SignUpPage> {
     if (signUp != null) {
       _nomeController.text = signUp.nome;
       _celularController.text = (signUp.celular).toString();
-      _dataController.text = DateFormat('MM/dd/yyyy').format(signUp.data);
+      _dataController.text = DateFormat('dd/MM/yyyy').format(signUp.data);
       _emailController.text = signUp.email;
       _senhaController.text = signUp.senha;
     }
@@ -47,6 +50,8 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               children: [
                 const SizedBox(height: 80),
+                _buildScaniaId(),
+                const SizedBox(height: 20),
                 _buildNome(),
                 const SizedBox(height: 20),
                 _buildEmail(),
@@ -95,43 +100,70 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 onPressed: () async {
                   final isValid = _formKey.currentState!.validate();
-                  if (isValid) {
-                    final nome = _nomeController.text;
-                    final celular = NumberFormat.currency(locale: 'pt_BR')
-                        .parse(_celularController.text)
-                        .toInt();
-                    final data =
-                        DateFormat('dd/MM/yyyy').parse(_dataController.text);
-                    final email = _emailController.text;
-                    final senha = _senhaController.text;
+                  if (!isValid) {
+                    return;
+                  }
+                  final nome = _nomeController.text;
+                  final celular = _celularController.text;
+                  final data =
+                      DateFormat('dd/MM/yyyy').parse(_dataController.text);
+                  final email = _emailController.text;
+                  final senha = _senhaController.text;
 
-                    final signUp = SignUp(
-                        email: email,
-                        nome: nome,
-                        celular: celular,
-                        data: data,
-                        senha: senha);
+                  final signUp = SignUp(
+                      id: int.parse(_scaniaIdController.text),
+                      email: email,
+                      nome: nome,
+                      celular: celular,
+                      data: data,
+                      senha: senha);
 
-                    try {
-                      if (widget.signUpParaEdicao != null) {
-                        signUp.id = widget.signUpParaEdicao!.id;
-                        await _signUpRepository.editar(signUp);
-                      } else {
-                        await _signUpRepository.cadastrar(signUp);
-                      }
-
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Usuário cadastrado com sucesso'),
-                      ));
-
-                      Navigator.of(context).pop(true);
-                    } catch (e) {
-                      Navigator.of(context).pop(false);
+                  try {
+                    if (widget.signUpParaEdicao != null) {
+                      signUp.id = widget.signUpParaEdicao!.id;
+                      await _signUpRepository.editar(signUp);
+                    } else {
+                      await _signUpRepository.cadastrar(signUp);
                     }
+
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Text('Dados salvos com sucesso.'),
+                    ));
+
+                    Navigator.of(context).pop(signUp);
+                  } catch (e) {
+                    String exceptionString = e.toString();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content:
+                            Text("Não foi possível salvar: $exceptionString")));
                   }
                 },
               ),
             )));
+  }
+
+  TextFormField _buildScaniaId() {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      controller: _scaniaIdController,
+      decoration: const InputDecoration(
+        labelText: 'ScaniaID',
+        labelStyle: TextStyle(
+          color: Colors.black38,
+          fontWeight: FontWeight.w400,
+          fontSize: 20,
+        ),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Informe sua ID Scania';
+        }
+        if (value.length != 8) {
+          return 'ID Scania tem 8 caracteres';
+        }
+        return null;
+      },
+    );
   }
 
   TextFormField _buildNome() {
@@ -160,6 +192,7 @@ class _SignUpPageState extends State<SignUpPage> {
   TextFormField _buildCelular() {
     return TextFormField(
       controller: _celularController,
+      keyboardType: TextInputType.phone,
       decoration: const InputDecoration(
         labelText: 'Celular',
         labelStyle: TextStyle(
@@ -199,8 +232,8 @@ class _SignUpPageState extends State<SignUpPage> {
         DateTime? dataSelecionada = await showDatePicker(
           context: context,
           initialDate: DateTime.now(),
-          firstDate: DateTime(2000),
-          lastDate: DateTime(2100),
+          firstDate: DateTime(1920),
+          lastDate: DateTime.now(),
         );
 
         if (dataSelecionada != null) {
@@ -237,13 +270,9 @@ class _SignUpPageState extends State<SignUpPage> {
         ),
       ),
       validator: (value) {
-        String pattern =
-            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-        RegExp regExp = RegExp(pattern);
-
         if (value == null || value.isEmpty) {
           return "Informe seu email";
-        } else if (!regExp.hasMatch(value)) {
+        } else if (!EmailValidator.validate(value)) {
           return 'Formato de email inválido';
         }
         return null;

@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.calvin_boards">
    <application
-        android:label="calvin_boards"
+        android:label="Calvin Boards"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

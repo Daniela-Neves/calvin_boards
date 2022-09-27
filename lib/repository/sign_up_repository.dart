@@ -1,7 +1,6 @@
 import '../database/database_manager.dart';
 import '../models/sign_up.dart';
 
-
 class SignUpRepository {
   Future<List<SignUp>> listarCadastros() async {
     final db = await DatabaseManager().getDatabase();
@@ -18,14 +17,14 @@ class SignUpRepository {
     return rows
         .map(
           (row) => SignUp(
-        id: row['id'],
-        nome: row['nome'],
-        celular: row['celular'],
-        data: DateTime.fromMillisecondsSinceEpoch(row['data']),
-        email: row['email'],
-        senha: row['senha'],
-      ),
-    )
+            id: row['id'],
+            nome: row['nome'],
+            celular: row['celular'],
+            data: DateTime.fromMillisecondsSinceEpoch(row['data']),
+            email: row['email'],
+            senha: row['senha'],
+          ),
+        )
         .toList();
   }
 
@@ -61,5 +60,23 @@ class SignUpRepository {
         },
         where: 'id = ?',
         whereArgs: [signup.id]);
+  }
+
+  Future<bool> login(int id, String senha) async {
+    final db = await DatabaseManager().getDatabase();
+    List<Map<String, Object?>> cadastros =
+        await db.query('cadastros', where: 'id = ?', whereArgs: [id]);
+    if (cadastros.isEmpty) {
+      return false;
+    }
+
+    SignUp cadastro =
+        cadastros.map((row) => SignUp.fromMap(row)).toList().first;
+
+    if (cadastro.senha == senha) {
+      return true;
+    }
+
+    return false;
   }
 }

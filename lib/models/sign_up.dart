@@ -1,7 +1,7 @@
 class SignUp {
   int? id;
   String nome;
-  int celular;
+  String celular;
   DateTime data;
   String email;
   String senha;
@@ -14,4 +14,14 @@ class SignUp {
     required this.data,
     required this.senha,
   });
+
+  factory SignUp.fromMap(Map<String, dynamic> map) {
+    return SignUp(
+        id: map['id'],
+        nome: map['nome'],
+        celular: map['celular'],
+        email: map['celular'],
+        data: DateTime.fromMillisecondsSinceEpoch(map['data']),
+        senha: map['senha']);
+  }
 }

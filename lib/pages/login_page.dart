@@ -1,33 +1,31 @@
+import 'package:calvin_boards/database/database_manager.dart';
+import 'package:calvin_boards/models/sign_up.dart';
+import 'package:calvin_boards/repository/sign_up_repository.dart';
+
 import '../pages/reset-password_page.dart';
 import '../pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage ({Key? key}) : super(key: key);
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
-/*class _LoginPageState extends State<LoginPage> {
-  int paginaAtual = 0;
-  late PageController pc;
+class _LoginPageState extends State<LoginPage> {
+  late TextEditingController _scaniaIdController;
+  late TextEditingController _senhaController;
+  final repo = SignUpRepository();
 
   @override
   void initState() {
     super.initState();
-    pc = PageController(initialPage: paginaAtual);
+    _scaniaIdController = TextEditingController();
+    _senhaController = TextEditingController();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}*/
-
-
-class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,24 +57,13 @@ class _LoginPageState extends State<LoginPage> {
                 textAlign: TextAlign.center,
               ),
             ),
-            TextFormField(
-              // autofocus: true,
-              keyboardType: TextInputType.emailAddress,
-              decoration: const InputDecoration(
-                labelText: "Scania ID:",
-                labelStyle: TextStyle(
-                  color: Colors.black38,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                ),
-              ),
-              style: const TextStyle(fontSize: 20),
-            ),
+            _buildScaniaIdInput(),
             const SizedBox(
               height: 10,
             ),
             TextFormField(
               // autofocus: true,
+              controller: _senhaController,
               keyboardType: TextInputType.text,
               obscureText: true,
               decoration: const InputDecoration(
@@ -89,7 +76,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
               style: const TextStyle(fontSize: 20),
             ),
-
             Container(
               height: 50,
               alignment: Alignment.centerLeft,
@@ -141,7 +127,18 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
-                  onPressed: () {
+                  onPressed: () async {
+                    bool login = await repo.login(
+                        int.parse(_scaniaIdController.text),
+                        _senhaController.text);
+
+                    if (!login) {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                          content: Text("Erro: id ou senha inválidos"),
+                          backgroundColor: Colors.red));
+                      return;
+                    }
+                    ;
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -182,19 +179,39 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                onPressed: () {
-                  Navigator.push(
+                onPressed: () async {
+                  SignUp? signUp = await Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) => SignUpPage(),
                     ),
-                  );
+                  ) as SignUp;
+                  setState(() {
+                    _scaniaIdController.text = signUp.id.toString();
+                  });
                 },
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildScaniaIdInput() {
+    return TextFormField(
+      // autofocus: true,
+      controller: _scaniaIdController,
+      keyboardType: TextInputType.number,
+      decoration: const InputDecoration(
+        labelText: "Scania ID:",
+        labelStyle: TextStyle(
+          color: Colors.black38,
+          fontWeight: FontWeight.w400,
+          fontSize: 20,
+        ),
+      ),
+      style: const TextStyle(fontSize: 20),
     );
   }
 }
