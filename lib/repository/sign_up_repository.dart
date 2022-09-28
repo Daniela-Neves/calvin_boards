@@ -28,17 +28,21 @@ class SignUpRepository {
         .toList();
   }
 
-  Future<void> cadastrar(SignUp signup) async {
+  Future<bool> cadastrar(SignUp signup) async {
     final db = await DatabaseManager().getDatabase();
-
-    db.insert("cadastros", {
-      "id": signup.id,
-      "nome": signup.nome,
-      "celular": signup.celular,
-      "data": signup.data.millisecondsSinceEpoch,
-      "email": signup.email,
-      "senha": signup.senha,
-    });
+    try {
+      db.insert("cadastros", {
+        "id": signup.id,
+        "nome": signup.nome,
+        "celular": signup.celular,
+        "data": signup.data.millisecondsSinceEpoch,
+        "email": signup.email,
+        "senha": signup.senha,
+      });
+    } catch (e) {
+      rethrow;
+    }
+    return true;
   }
 
   Future<void> remover(int id) async {
@@ -62,21 +66,21 @@ class SignUpRepository {
         whereArgs: [signup.id]);
   }
 
-  Future<bool> login(int id, String senha) async {
+  Future<SignUp?> login(int id, String senha) async {
     final db = await DatabaseManager().getDatabase();
     List<Map<String, Object?>> cadastros =
         await db.query('cadastros', where: 'id = ?', whereArgs: [id]);
     if (cadastros.isEmpty) {
-      return false;
+      return null;
     }
 
     SignUp cadastro =
         cadastros.map((row) => SignUp.fromMap(row)).toList().first;
 
     if (cadastro.senha == senha) {
-      return true;
+      return cadastro;
     }
 
-    return false;
+    return null;
   }
 }

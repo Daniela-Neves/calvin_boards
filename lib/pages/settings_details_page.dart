@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../models/sign_up.dart';
 
 class SettingsDetailsPage extends StatelessWidget {
-  const SettingsDetailsPage({Key? key}) : super(key: key);
+  SettingsDetailsPage({Key? key}) : super(key: key);
+  late SignUp signup;
 
   @override
   Widget build(BuildContext context) {
-    final signup = ModalRoute.of(context)!.settings.arguments as SignUp;
-
+    signup = Provider.of<SignUp>(context, listen: false);
+    /*final signup = ModalRoute.of(context)!.settings.arguments as SignUp;
+    
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(30.0),
@@ -45,6 +48,16 @@ class SettingsDetailsPage extends StatelessWidget {
           ],
         ),
       ),
-    );
+    );*/
+    return Scaffold(
+        body: Column(children: [
+      ListTile(
+          title: const Text("Meu perfil"),
+          trailing: const Icon(Icons.arrow_forward),
+          onTap: () {
+            Navigator.pushNamed(context, '/signup',
+                arguments: context.read<SignUp>());
+          })
+    ]));
   }
 }

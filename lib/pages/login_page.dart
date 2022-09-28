@@ -128,23 +128,20 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                   onPressed: () async {
-                    bool login = await repo.login(
+                    SignUp? usuario = await repo.login(
                         int.parse(_scaniaIdController.text),
                         _senhaController.text);
 
-                    if (!login) {
+                    if (usuario == null) {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text("Erro: id ou senha inválidos"),
                           backgroundColor: Colors.red));
+                      _senhaController.text = '';
                       return;
                     }
-                    ;
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const HomePage(),
-                      ),
-                    );
+
+                    Navigator.pushReplacementNamed(context, '/home',
+                        arguments: usuario);
                   },
                 ),
               ),
