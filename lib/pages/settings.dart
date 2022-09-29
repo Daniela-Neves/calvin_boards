@@ -1,11 +1,9 @@
-import 'package:calvin_boards/components/default_drawer.dart';
 import 'package:calvin_boards/models/sign_up.dart';
 import 'package:calvin_boards/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:calvin_boards/components/sign_up_item.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:provider/provider.dart';
 import '../repository/sign_up_repository.dart';
 import 'agriculture_page.dart';
 import 'equipment_page.dart';
@@ -21,7 +19,6 @@ class SettingsPage extends StatefulWidget {
 class _SettingsPageState extends State<SettingsPage> {
   final _signUpRepository = SignUpRepository();
   late Future<List<SignUp>> _futureSignUp;
-  bool notificacoes = true;
 
   @override
   void initState() {
@@ -33,35 +30,95 @@ class _SettingsPageState extends State<SettingsPage> {
     _futureSignUp = _signUpRepository.listarCadastros();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text("Configurações")),
-        //drawer: DefaultDrawer(),
+        drawer: _buildDrawer(),
         body: _buildConfig());
   }
 
-  Widget _buildConfig() {
-    return ListView(
-      children: [
-        ListTile(
-            title: const Text("Meu Perfil"),
-            trailing: const Icon(Icons.arrow_forward),
+  Widget _buildDrawer() {
+    return Drawer(
+      child: Column(
+        children: <Widget>[
+          const UserAccountsDrawerHeader(
+              accountName: Text("Calvin Santos"),
+              accountEmail: Text("calvinboard.com.br")),
+          ListTile(
+            trailing: const Icon(Icons.arrow_forward_ios),
+            leading: const Icon(Icons.home),
+            title: const Text("Home"),
             onTap: () {
-              Navigator.pushNamed(context, '/signup');
-            }),
-        SwitchListTile(
-            title: const Text("Notificações"),
-            value: notificacoes,
-            onChanged: (state) {
-              setState(() {
-                notificacoes = state;
-              });
-            })
-      ],
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomePage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            trailing: const Icon(Icons.arrow_forward_ios),
+            leading: const Icon(Icons.emoji_nature),
+            title: const Text("Agricultura"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AgriculturePage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            trailing: const Icon(Icons.arrow_forward_ios),
+            leading: const Icon(Icons.agriculture),
+            title: const Text("Equipamentos"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const EquipmentPage(),
+                ),
+              );
+            },
+          ),
+          const SizedBox(
+            //height: 200,
+          ),
+          ListTile(
+            trailing: const Icon(Icons.arrow_forward_ios),
+            leading: const Icon(Icons.miscellaneous_services),
+            title: const Text("Configurações"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SettingsPage(),
+                ),
+              );
+            },
+          ),
+          Expanded(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: ListTile(
+                trailing: const Icon(Icons.arrow_forward_ios),
+                leading: const Icon(Icons.exit_to_app),
+                title: const Text("Sair"),
+                onTap: () {
+                  SystemNavigator.pop();
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
-/*
+
   Widget _buildConfig() {
     return Scaffold(
       body: FutureBuilder<List<SignUp>>(
@@ -133,5 +190,5 @@ class _SettingsPageState extends State<SettingsPage> {
         },
       ),
     );
-  }*/
+  }
 }

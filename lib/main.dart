@@ -1,7 +1,4 @@
-import 'package:calvin_boards/pages/home_page.dart';
 import 'package:calvin_boards/pages/login_page.dart';
-import 'package:calvin_boards/pages/settings.dart';
-import 'package:calvin_boards/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -22,9 +19,6 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/': (context) => const LoginPage(),
-        '/signup': (context) => SignUpPage(),
-        '/home': (context) => const HomePage(),
-        '/settings': (context) => const SettingsPage(),
       },
       initialRoute: '/',
     );

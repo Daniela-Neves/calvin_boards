@@ -1,5 +1,4 @@
 import 'package:email_validator/email_validator.dart';
-import 'package:provider/provider.dart';
 import '../models/sign_up.dart';
 import '../repository/sign_up_repository.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
   void initState() {
     super.initState();
 
-    var signUp = ModalRoute.of(context)!.settings.arguments as SignUp;
-    ;
+    final signUp = widget.signUpParaEdicao;
     if (signUp != null) {
       _nomeController.text = signUp.nome;
       _celularController.text = (signUp.celular).toString();
@@ -133,8 +131,10 @@ class _SignUpPageState extends State<SignUpPage> {
 
                     Navigator.of(context).pop(signUp);
                   } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Essa ID já está cadastrada.")));
+                    String exceptionString = e.toString();
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content:
+                            Text("Não foi possível salvar: $exceptionString")));
                   }
                 },
               ),
