@@ -1,24 +1,38 @@
+import 'dart:io';
+
 import 'package:calvin_boards/models/sign_up.dart';
 import 'package:calvin_boards/pages/agriculture_page.dart';
 import 'package:calvin_boards/pages/equipment_page.dart';
 import 'package:calvin_boards/pages/home_page.dart';
 import 'package:calvin_boards/pages/settings.dart';
+import 'package:calvin_boards/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class DefaultDrawer extends Drawer {
-  late SignUp usuario;
+  DefaultDrawer({super.key});
 
-  DefaultDrawer(this.usuario);
+  List<Page> pages = [
+    Page(
+        nome: "Home",
+        icone: Icons.home,
+        builder: (context) => const HomePage()),
+    Page(
+        nome: "Agricultura",
+        icone: Icons.emoji_nature,
+        builder: (context) => const AgriculturePage())
+  ];
 
   @override
   Widget build(BuildContext context) {
+    SignUp signUp = Provider.of<SignUpProvider>(context).getUsuario()!;
+
     return Drawer(
       child: Column(
         children: <Widget>[
-          const UserAccountsDrawerHeader(
-              accountName: Text("Calvin Santos"),
+          UserAccountsDrawerHeader(
+              accountName: Text(signUp.nome),
               accountEmail: Text("calvinboard.com.br")),
           ListTile(
             trailing: const Icon(Icons.arrow_forward_ios),
@@ -64,7 +78,14 @@ class DefaultDrawer extends Drawer {
             leading: const Icon(Icons.miscellaneous_services),
             title: const Text("Configurações"),
             onTap: () {
-              Navigator.pushNamed(context, '/settings', arguments: usuario);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) =>
+                          ChangeNotifierProvider<SignUpProvider>(
+                              create: (_) => SignUpProvider(signUp: signUp),
+                              builder: (context, child) =>
+                                  const SettingsPage()))));
             },
           ),
           Expanded(
@@ -88,4 +109,12 @@ class DefaultDrawer extends Drawer {
       ),
     );
   }
+}
+
+class Page {
+  String nome;
+  IconData icone;
+  Widget Function(BuildContext?) builder;
+
+  Page({required this.nome, required this.icone, required this.builder});
 }

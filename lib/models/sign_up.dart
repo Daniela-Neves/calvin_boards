@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-
-class SignUp extends ChangeNotifier {
+class SignUp {
   int? id;
   String nome;
   String celular;
@@ -22,7 +20,7 @@ class SignUp extends ChangeNotifier {
         id: map['id'],
         nome: map['nome'],
         celular: map['celular'],
-        email: map['celular'],
+        email: map['email'],
         data: DateTime.fromMillisecondsSinceEpoch(map['data']),
         senha: map['senha']);
   }

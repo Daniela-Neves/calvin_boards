@@ -1,15 +1,9 @@
-import 'package:calvin_boards/components/default_drawer.dart';
 import 'package:calvin_boards/models/sign_up.dart';
 import 'package:calvin_boards/pages/signup_page.dart';
+import 'package:calvin_boards/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:calvin_boards/components/sign_up_item.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import '../repository/sign_up_repository.dart';
-import 'agriculture_page.dart';
-import 'equipment_page.dart';
-import 'home_page.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -19,26 +13,48 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final _signUpRepository = SignUpRepository();
-  late Future<List<SignUp>> _futureSignUp;
   bool notificacoes = true;
 
-  @override
-  void initState() {
-    carregarCadastros();
-    super.initState();
-  }
+  late SignUpProvider signUpProvider;
 
-  void carregarCadastros() {
-    _futureSignUp = _signUpRepository.listarCadastros();
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    signUpProvider = Provider.of<SignUpProvider>(context);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Configurações")),
-        //drawer: DefaultDrawer(),
-        body: _buildConfig());
+        appBar: AppBar(
+            title: const Text("Configurações"),
+            leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                })),
+        body: ListView(children: [
+          ListTile(
+              title: const Text("Meu Perfil"),
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            ChangeNotifierProvider<SignUpProvider>(
+                                builder: (context, child) => const SignUpPage(),
+                                create: (_) => signUpProvider)));
+              }),
+          SwitchListTile(
+              title: const Text("Notificações"),
+              value: notificacoes,
+              onChanged: (state) {
+                setState(() {
+                  notificacoes = state;
+                });
+              })
+        ]));
   }
 
   Widget _buildConfig() {
@@ -48,7 +64,14 @@ class _SettingsPageState extends State<SettingsPage> {
             title: const Text("Meu Perfil"),
             trailing: const Icon(Icons.arrow_forward),
             onTap: () {
-              Navigator.pushNamed(context, '/signup');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ChangeNotifierProvider<SignUpProvider>(
+                              child: const SignUpPage(),
+                              create: (context) =>
+                                  context.read<SignUpProvider>())));
             }),
         SwitchListTile(
             title: const Text("Notificações"),

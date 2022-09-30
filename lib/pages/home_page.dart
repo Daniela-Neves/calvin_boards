@@ -1,5 +1,6 @@
 import 'package:calvin_boards/components/default_drawer.dart';
 import 'package:calvin_boards/models/sign_up.dart';
+import 'package:calvin_boards/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -12,12 +13,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late SignUp signUp;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final signUp = ModalRoute.of(context)!.settings.arguments as SignUp;
+    //SignUp signUp = ModalRoute.of(context)!.settings.arguments as SignUp;
+    signUp = Provider.of<SignUpProvider>(context).getUsuario()!;
+
     return Scaffold(
         appBar: AppBar(title: const Text("Home")),
-        drawer: DefaultDrawer(signUp),
+        drawer: ChangeNotifierProvider<SignUpProvider>(
+            builder: (context, child) => DefaultDrawer(),
+            create: (_) => SignUpProvider(signUp: signUp)),
         body: Container(child: _buildChart()));
   }
 

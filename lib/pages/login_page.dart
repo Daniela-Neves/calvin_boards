@@ -1,11 +1,12 @@
-import 'package:calvin_boards/database/database_manager.dart';
 import 'package:calvin_boards/models/sign_up.dart';
+import 'package:calvin_boards/pages/home_page.dart';
+import 'package:calvin_boards/providers/signup_provider.dart';
 import 'package:calvin_boards/repository/sign_up_repository.dart';
+import 'package:provider/provider.dart';
 
 import '../pages/reset-password_page.dart';
 import '../pages/signup_page.dart';
 import 'package:flutter/material.dart';
-import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -140,8 +141,14 @@ class _LoginPageState extends State<LoginPage> {
                       return;
                     }
 
-                    Navigator.pushReplacementNamed(context, '/home',
-                        arguments: usuario);
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) =>
+                                ChangeNotifierProvider<SignUpProvider>(
+                                    create: (context) =>
+                                        SignUpProvider(signUp: usuario),
+                                    child: const HomePage()))));
                   },
                 ),
               ),

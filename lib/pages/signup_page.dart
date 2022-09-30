@@ -1,3 +1,4 @@
+import 'package:calvin_boards/providers/signup_provider.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:provider/provider.dart';
 import '../models/sign_up.dart';
@@ -6,9 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class SignUpPage extends StatefulWidget {
-  SignUp? signUpParaEdicao;
-
-  SignUpPage({Key? key, this.signUpParaEdicao}) : super(key: key);
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -26,12 +25,19 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   void initState() {
     super.initState();
+  }
 
-    var signUp = ModalRoute.of(context)!.settings.arguments as SignUp;
-    ;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    SignUpProvider? signUpProvider = Provider.of<SignUpProvider>(context);
+    SignUp? signUp = signUpProvider.getUsuario();
+
     if (signUp != null) {
+      _scaniaIdController.text = signUp.id.toString();
       _nomeController.text = signUp.nome;
-      _celularController.text = (signUp.celular).toString();
+      _celularController.text = signUp.celular.toString();
       _dataController.text = DateFormat('dd/MM/yyyy').format(signUp.data);
       _emailController.text = signUp.email;
       _senhaController.text = signUp.senha;
@@ -120,8 +126,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       senha: senha);
 
                   try {
-                    if (widget.signUpParaEdicao != null) {
-                      signUp.id = widget.signUpParaEdicao!.id;
+                    if (context.read<SignUp?>() != null) {
+                      signUp.id = context.read<SignUp?>()!.id;
                       await _signUpRepository.editar(signUp);
                     } else {
                       await _signUpRepository.cadastrar(signUp);
