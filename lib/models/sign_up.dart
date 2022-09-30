@@ -20,7 +20,7 @@ class SignUp {
         id: map['id'],
         nome: map['nome'],
         celular: map['celular'],
-        email: map['celular'],
+        email: map['email'],
         data: DateTime.fromMillisecondsSinceEpoch(map['data']),
         senha: map['senha']);
   }
