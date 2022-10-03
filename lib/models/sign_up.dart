@@ -1,4 +1,6 @@
-class SignUp {
+import 'package:flutter/material.dart';
+
+class SignUp extends ChangeNotifier {
   int? id;
   String nome;
   String celular;

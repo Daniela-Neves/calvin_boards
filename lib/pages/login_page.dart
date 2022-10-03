@@ -141,13 +141,15 @@ class _LoginPageState extends State<LoginPage> {
                       return;
                     }
 
+                    Provider.of<SignUpProvider>(context, listen: false)
+                        .setSignUp(usuario);
+
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: ((context) =>
-                                ChangeNotifierProvider<SignUpProvider>(
-                                    create: (context) =>
-                                        SignUpProvider(signUp: usuario),
+                                ChangeNotifierProvider<SignUpProvider>.value(
+                                    value: context.watch<SignUpProvider>(),
                                     child: const HomePage()))));
                   },
                 ),

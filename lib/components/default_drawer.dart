@@ -26,13 +26,14 @@ class DefaultDrawer extends Drawer {
 
   @override
   Widget build(BuildContext context) {
-    SignUp signUp = Provider.of<SignUpProvider>(context).getUsuario()!;
+    //SignUp signUp = Provider.of<SignUpProvider>(context).getUsuario()!;
 
     return Drawer(
       child: Column(
         children: <Widget>[
           UserAccountsDrawerHeader(
-              accountName: Text(signUp.nome),
+              accountName:
+                  Text(context.watch<SignUpProvider>().getUsuario()!.nome),
               accountEmail: Text("calvinboard.com.br")),
           ListTile(
             trailing: const Icon(Icons.arrow_forward_ios),
@@ -82,8 +83,8 @@ class DefaultDrawer extends Drawer {
                   context,
                   MaterialPageRoute(
                       builder: ((context) =>
-                          ChangeNotifierProvider<SignUpProvider>(
-                              create: (_) => SignUpProvider(signUp: signUp),
+                          ChangeNotifierProvider<SignUpProvider>.value(
+                              value: context.watch<SignUpProvider>(),
                               builder: (context, child) =>
                                   const SettingsPage()))));
             },
@@ -98,7 +99,11 @@ class DefaultDrawer extends Drawer {
                     leading: const Icon(Icons.exit_to_app),
                     title: const Text("Sair"),
                     onTap: () {
-                      SystemNavigator.pop();
+                      //SystemNavigator.pop();
+                      Navigator.of(context).pushNamed('/login');
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Você fez logout. Até logo."),
+                          backgroundColor: Colors.green));
                     },
                   ),
                 ],

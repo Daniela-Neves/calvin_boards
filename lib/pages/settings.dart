@@ -1,4 +1,5 @@
 import 'package:calvin_boards/models/sign_up.dart';
+import 'package:calvin_boards/pages/my_account_page.dart';
 import 'package:calvin_boards/pages/signup_page.dart';
 import 'package:calvin_boards/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +44,8 @@ class _SettingsPageState extends State<SettingsPage> {
                     MaterialPageRoute(
                         builder: (context) =>
                             ChangeNotifierProvider<SignUpProvider>(
-                                builder: (context, child) => const SignUpPage(),
+                                builder: (context, child) =>
+                                    const MyAccountPage(),
                                 create: (_) => signUpProvider)));
               }),
           SwitchListTile(

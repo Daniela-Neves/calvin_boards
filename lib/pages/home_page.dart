@@ -13,8 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late SignUp signUp;
-
   @override
   void initState() {
     super.initState();
@@ -23,14 +21,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     //SignUp signUp = ModalRoute.of(context)!.settings.arguments as SignUp;
-    signUp = Provider.of<SignUpProvider>(context).getUsuario()!;
-
     return Scaffold(
         appBar: AppBar(title: const Text("Home")),
-        drawer: ChangeNotifierProvider<SignUpProvider>(
+        drawer: ChangeNotifierProvider<SignUpProvider>.value(
             builder: (context, child) => DefaultDrawer(),
-            create: (_) => SignUpProvider(signUp: signUp)),
-        body: Container(child: _buildChart()));
+            value: Provider.of<SignUpProvider>(context)),
+        body: _buildChart());
   }
 
   Widget _buildChart() {

@@ -1,24 +1,49 @@
+import 'package:calvin_boards/providers/signup_provider.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 import '../models/sign_up.dart';
 import '../repository/sign_up_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({Key? key}) : super(key: key);
+class MyAccountPage extends StatefulWidget {
+  const MyAccountPage({Key? key}) : super(key: key);
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<MyAccountPage> createState() => _MyAccountPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _MyAccountPageState extends State<MyAccountPage> {
   final _signUpRepository = SignUpRepository();
-  final _scaniaIdController = TextEditingController();
   final _nomeController = TextEditingController();
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   final _celularController = TextEditingController();
   final _dataController = TextEditingController();
+  late String scaniaId;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    SignUpProvider? signUpProvider =
+        Provider.of<SignUpProvider>(context, listen: false);
+    SignUp signUp = signUpProvider.getUsuario()!;
+
+    _nomeController.text = signUp.nome;
+    _celularController.text = signUp.celular.toString();
+    _dataController.text = DateFormat('dd/MM/yyyy').format(signUp.data);
+    _emailController.text = signUp.email;
+    _senhaController.text = signUp.senha;
+
+    scaniaId = signUp.id.toString();
+  }
 
   final _formKey = GlobalKey<FormState>();
 
@@ -33,7 +58,7 @@ class _SignUpPageState extends State<SignUpPage> {
             child: Column(
               children: [
                 const SizedBox(height: 80),
-                _buildScaniaId(),
+                Text("Scania ID: $scaniaId"),
                 const SizedBox(height: 20),
                 _buildNome(),
                 const SizedBox(height: 20),
@@ -94,7 +119,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   final senha = _senhaController.text;
 
                   final signUp = SignUp(
-                      id: int.parse(_scaniaIdController.text),
+                      id: int.parse(scaniaId),
                       email: email,
                       nome: nome,
                       celular: celular,
@@ -102,44 +127,28 @@ class _SignUpPageState extends State<SignUpPage> {
                       senha: senha);
 
                   try {
-                    await _signUpRepository.cadastrar(signUp);
+                    await _signUpRepository.editar(signUp);
 
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                      content: Text('Cadastro efetuado.'),
+                      content: Text('Dados salvos com sucesso.'),
+                      backgroundColor: Colors.green,
                     ));
 
-                    Navigator.of(context).pop(signUp);
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Essa ID já está cadastrada.")));
+                    Provider.of<SignUpProvider>(context, listen: false)
+                        .setSignUp(signUp);
+                  } on DatabaseException catch (e) {
+                    String mensagem = "Essa ID já está cadastrada.";
+
+                    if (!e.isUniqueConstraintError()) {
+                      mensagem = "Erro ao salvar.";
+                    }
+
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text(mensagem), backgroundColor: Colors.red));
                   }
                 },
               ),
             )));
-  }
-
-  TextFormField _buildScaniaId() {
-    return TextFormField(
-      keyboardType: TextInputType.number,
-      controller: _scaniaIdController,
-      decoration: const InputDecoration(
-        labelText: 'ScaniaID',
-        labelStyle: TextStyle(
-          color: Colors.black38,
-          fontWeight: FontWeight.w400,
-          fontSize: 20,
-        ),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Informe sua ID Scania';
-        }
-        if (value.length != 8) {
-          return 'ID Scania tem 8 caracteres';
-        }
-        return null;
-      },
-    );
   }
 
   TextFormField _buildNome() {
@@ -209,7 +218,7 @@ class _SignUpPageState extends State<SignUpPage> {
           context: context,
           initialDate: DateTime.now(),
           firstDate: DateTime(1920),
-          lastDate: DateTime.now(),
+          lastDate: DateTime.now().subtract(const Duration(days: 365 * 18)),
         );
 
         if (dataSelecionada != null) {
