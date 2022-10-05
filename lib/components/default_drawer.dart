@@ -1,13 +1,9 @@
-import 'dart:io';
-
-import 'package:calvin_boards/models/sign_up.dart';
 import 'package:calvin_boards/pages/agriculture_page.dart';
 import 'package:calvin_boards/pages/equipment_page.dart';
 import 'package:calvin_boards/pages/home_page.dart';
 import 'package:calvin_boards/pages/settings.dart';
 import 'package:calvin_boards/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 class DefaultDrawer extends Drawer {
@@ -34,7 +30,7 @@ class DefaultDrawer extends Drawer {
           UserAccountsDrawerHeader(
               accountName:
                   Text(context.watch<SignUpProvider>().getUsuario()!.nome),
-              accountEmail: Text("calvinboard.com.br")),
+              accountEmail: Text(context.watch<SignUpProvider>().getUsuario()!.email)),
           ListTile(
             trailing: const Icon(Icons.arrow_forward_ios),
             leading: const Icon(Icons.home),
@@ -101,7 +97,7 @@ class DefaultDrawer extends Drawer {
                     onTap: () {
                       //SystemNavigator.pop();
                       Navigator.of(context).pushNamed('/login');
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                           content: Text("Você fez logout. Até logo."),
                           backgroundColor: Colors.green));
                     },

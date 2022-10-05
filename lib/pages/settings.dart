@@ -59,7 +59,7 @@ class _SettingsPageState extends State<SettingsPage> {
         ]));
   }
 
-  Widget _buildConfig() {
+  /*Widget _buildConfig() {
     return ListView(
       children: [
         ListTile(
@@ -86,7 +86,6 @@ class _SettingsPageState extends State<SettingsPage> {
       ],
     );
   }
-/*
   Widget _buildConfig() {
     return Scaffold(
       body: FutureBuilder<List<SignUp>>(

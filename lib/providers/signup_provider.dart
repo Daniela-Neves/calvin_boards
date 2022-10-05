@@ -13,6 +13,13 @@ class SignUpProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String getEmail() => signUp!.email;
+
+  void setEmail(String email) {
+    signUp!.email = email;
+    notifyListeners();
+  }
+
   SignUp? getUsuario() => signUp;
 
   void setSignUp(SignUp signUp) {
