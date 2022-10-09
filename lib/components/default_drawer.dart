@@ -22,15 +22,14 @@ class DefaultDrawer extends Drawer {
 
   @override
   Widget build(BuildContext context) {
-    //SignUp signUp = Provider.of<SignUpProvider>(context).getUsuario()!;
-
     return Drawer(
       child: Column(
         children: <Widget>[
           UserAccountsDrawerHeader(
               accountName:
                   Text(context.watch<SignUpProvider>().getUsuario()!.nome),
-              accountEmail: Text(context.watch<SignUpProvider>().getUsuario()!.email)),
+              accountEmail:
+                  Text(context.watch<SignUpProvider>().getUsuario()!.email)),
           ListTile(
             trailing: const Icon(Icons.arrow_forward_ios),
             leading: const Icon(Icons.home),

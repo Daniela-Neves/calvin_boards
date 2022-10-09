@@ -107,13 +107,15 @@ class _LoginPageState extends State<LoginPage> {
               height: 60,
               alignment: Alignment.centerLeft,
               decoration: const BoxDecoration(
-                color: Color(0xFFF85F6A),
+                //color: Color(0xFFF85F6A),
                 borderRadius: BorderRadius.all(
                   Radius.circular(5),
                 ),
               ),
               child: SizedBox.expand(
-                child: TextButton(
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Theme.of(context).primaryColor),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const <Widget>[
@@ -167,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                 "Ou",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFFF85F6A),
+                  //color: Color(0xFFF85F6A),
                   fontSize: 17,
                 ),
                 textAlign: TextAlign.center,

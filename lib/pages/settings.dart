@@ -49,6 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                 create: (_) => signUpProvider)));
               }),
           SwitchListTile(
+              activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
               title: const Text("Notificações"),
               value: notificacoes,
               onChanged: (state) {

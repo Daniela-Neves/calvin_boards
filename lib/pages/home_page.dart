@@ -1,5 +1,4 @@
 import 'package:calvin_boards/components/default_drawer.dart';
-import 'package:calvin_boards/models/sign_up.dart';
 import 'package:calvin_boards/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -36,7 +35,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    //SignUp signUp = ModalRoute.of(context)!.settings.arguments as SignUp;
     return Scaffold(
         appBar: AppBar(title: const Text("Home")),
         drawer: ChangeNotifierProvider<SignUpProvider>.value(
