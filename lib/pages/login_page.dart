@@ -19,6 +19,7 @@ class _LoginPageState extends State<LoginPage> {
   late TextEditingController _scaniaIdController;
   late TextEditingController _senhaController;
   final repo = SignUpRepository();
+  final _formkey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -58,25 +59,15 @@ class _LoginPageState extends State<LoginPage> {
                 textAlign: TextAlign.center,
               ),
             ),
-            _buildScaniaIdInput(),
-            const SizedBox(
-              height: 10,
-            ),
-            TextFormField(
-              // autofocus: true,
-              controller: _senhaController,
-              keyboardType: TextInputType.text,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: "Senha:",
-                labelStyle: TextStyle(
-                  color: Colors.black38,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 20,
-                ),
-              ),
-              style: const TextStyle(fontSize: 20),
-            ),
+            Form(
+                key: _formkey,
+                child: Column(children: [
+                  _buildScaniaIdInput(),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  _buildPaswordInput(),
+                ])),
             Container(
               height: 50,
               alignment: Alignment.centerLeft,
@@ -99,9 +90,6 @@ class _LoginPageState extends State<LoginPage> {
                   );
                 },
               ),
-            ),
-            const SizedBox(
-              height: 30,
             ),
             Container(
               height: 60,
@@ -131,6 +119,9 @@ class _LoginPageState extends State<LoginPage> {
                     ],
                   ),
                   onPressed: () async {
+                    if (!_formkey.currentState!.validate()) {
+                      return;
+                    }
                     SignUp? usuario = await repo.login(
                         int.parse(_scaniaIdController.text),
                         _senhaController.text);
@@ -206,13 +197,49 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildScaniaIdInput() {
+  TextFormField _buildScaniaIdInput() {
     return TextFormField(
       // autofocus: true,
       controller: _scaniaIdController,
       keyboardType: TextInputType.number,
+      validator: (value) {
+        if (value == null) {
+          return "Digite uma ID.";
+        }
+
+        final regex = RegExp(r'^[0-9]+$');
+        if (!regex.hasMatch(value)) {
+          return "ID contém somente números.";
+        }
+      },
       decoration: const InputDecoration(
         labelText: "Scania ID:",
+        labelStyle: TextStyle(
+          color: Colors.black38,
+          fontWeight: FontWeight.w400,
+          fontSize: 20,
+        ),
+      ),
+      style: const TextStyle(fontSize: 20),
+    );
+  }
+
+  TextFormField _buildPaswordInput() {
+    return TextFormField(
+      controller: _senhaController,
+      keyboardType: TextInputType.text,
+      obscureText: true,
+      validator: (value) {
+        if (value == null) {
+          return "Digite sua senha.";
+        }
+
+        if (value.length < 4) {
+          return "A senha contém no mínimo 4 caracteres.";
+        }
+      },
+      decoration: const InputDecoration(
+        labelText: "Senha:",
         labelStyle: TextStyle(
           color: Colors.black38,
           fontWeight: FontWeight.w400,
