@@ -1,9 +1,12 @@
 import 'package:calvin_boards/components/default_drawer.dart';
+import 'package:calvin_boards/pages/notifications_page.dart';
+import 'package:calvin_boards/providers/notifications_provider.dart';
 import 'package:calvin_boards/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:badges/badges.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -36,7 +39,19 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Home")),
+        appBar: AppBar(title: const Text("Home"), actions: <Widget>[
+          IconButton(
+              icon: Badge(
+                  badgeContent: Text(context
+                      .watch<NotificationsProvider>()
+                      .unreadCount()
+                      .toString()),
+                  child: const Icon(Icons.notifications, color: Colors.white)),
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => const NotificationsPage()));
+              })
+        ]),
         drawer: ChangeNotifierProvider<SignUpProvider>.value(
             builder: (context, child) => DefaultDrawer(),
             value: Provider.of<SignUpProvider>(context)),
