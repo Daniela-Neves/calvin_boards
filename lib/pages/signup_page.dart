@@ -32,7 +32,7 @@ class _SignUpPageState extends State<SignUpPage> {
             padding: const EdgeInsets.all(30.0),
             child: Column(
               children: [
-                const SizedBox(height: 80),
+                const SizedBox(height: 50),
                 _buildScaniaId(),
                 const SizedBox(height: 20),
                 _buildNome(),
@@ -60,7 +60,7 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 60,
             alignment: Alignment.centerLeft,
             decoration: const BoxDecoration(
-              color: Color(0xFFF85F6A),
+              color: Color(0xFF041E42),
               borderRadius: BorderRadius.all(
                 Radius.circular(5),
               ),

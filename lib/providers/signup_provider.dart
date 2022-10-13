@@ -1,8 +1,11 @@
 import 'package:calvin_boards/models/sign_up.dart';
 import 'package:flutter/material.dart';
+import '../database/database_manager.dart';
 
 class SignUpProvider extends ChangeNotifier {
   SignUp? signUp;
+
+  final db = DatabaseManager().getDatabase();
 
   SignUpProvider();
 
@@ -26,4 +29,10 @@ class SignUpProvider extends ChangeNotifier {
     this.signUp = signUp;
     notifyListeners();
   }
+
+    Future<void> remover() async {
+      final db = await DatabaseManager().getDatabase();
+      await db.delete('cadastros');
+      notifyListeners();
+    }
 }

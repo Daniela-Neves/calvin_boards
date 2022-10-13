@@ -41,7 +41,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 128,
               child: Icon(
                 Icons.insert_chart_outlined_outlined,
-                color: Color(0xFFF85F6A),
+                color: Color(0xFF041E42),
                 size: 100,
               ),
             ),
@@ -53,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 "Bem vindo de volta!",
                 style: TextStyle(
-                  color: Color(0xFFF85F6A),
+                  color: Color(0xFF041E42),
                   fontSize: 18,
                 ),
                 textAlign: TextAlign.center,
@@ -91,19 +91,20 @@ class _LoginPageState extends State<LoginPage> {
                 },
               ),
             ),
+            const SizedBox(
+              height: 10,
+            ),
             Container(
-              height: 60,
+              height: 50,
               alignment: Alignment.centerLeft,
               decoration: const BoxDecoration(
-                //color: Color(0xFFF85F6A),
+                color: Color(0xFF16417F),
                 borderRadius: BorderRadius.all(
                   Radius.circular(5),
                 ),
               ),
               child: SizedBox.expand(
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor),
+                child: TextButton(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const <Widget>[
@@ -149,9 +150,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             const SizedBox(
-              height: 10,
-            ),
-            const SizedBox(
               height: 20,
             ),
             const SizedBox(
@@ -159,36 +157,51 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 "Ou",
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  //color: Color(0xFFF85F6A),
+                  color: Color(0xFF041E42),
                   fontSize: 17,
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(
-              height: 40,
-              child: TextButton(
-                child: const Text(
-                  "Registre-se",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFF85F6A),
-                    fontSize: 17,
-                  ),
-                  textAlign: TextAlign.center,
+            Container(
+              height: 50,
+              alignment: Alignment.centerLeft,
+              decoration: const BoxDecoration(
+                color: Color(0xFFFDFDFE),
+                borderRadius: BorderRadius.all(
+                  Radius.circular(5),
                 ),
-                onPressed: () async {
-                  SignUp? signUp = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SignUpPage(),
-                    ),
-                  ) as SignUp;
-                  setState(() {
-                    _scaniaIdController.text = signUp.id.toString();
-                  });
-                },
+              ),
+              child: SizedBox.expand(
+                child: TextButton(
+                  onPressed: () async {
+                    SignUp? signUp = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => SignUpPage(),
+                      ),
+                    ) as SignUp;
+                    setState(() {
+                      _scaniaIdController.text = signUp.id.toString();
+                    });
+                  },
+                  style: TextButton.styleFrom(
+                    side: const BorderSide(width: 1.0, color: Colors.black),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      Text(
+                        "Registre-se",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 17,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],

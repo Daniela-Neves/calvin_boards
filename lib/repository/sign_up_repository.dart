@@ -64,8 +64,9 @@ class SignUpRepository {
         },
         where: 'id = ?',
         whereArgs: [signup.id]);
-  }
 
+
+  }
   Future<SignUp?> login(int id, String senha) async {
     final db = await DatabaseManager().getDatabase();
     List<Map<String, Object?>> cadastros =

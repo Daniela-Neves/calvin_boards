@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:badges/badges.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -39,7 +40,13 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Home"), actions: <Widget>[
+        appBar: AppBar(title: const Text("Home"),
+            leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
+            actions: <Widget>[
           IconButton(
               icon: Badge(
                   badgeContent: Text(context
@@ -55,8 +62,37 @@ class _HomePageState extends State<HomePage> {
         drawer: ChangeNotifierProvider<SignUpProvider>.value(
             builder: (context, child) => DefaultDrawer(),
             value: Provider.of<SignUpProvider>(context)),
-        body: Column(children: [
+        body:
+        Column
+          (children: [
           Expanded(child: _buildChart()),
+          Expanded(child:
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CircularPercentIndicator(
+                radius: 45.0,
+                lineWidth: 4.0,
+                percent: 0.10,
+                center: const Text("10%"),
+                progressColor: Colors.red,
+              ),
+              CircularPercentIndicator(
+                radius: 45.0,
+                lineWidth: 4.0,
+                percent: 0.30,
+                center: const Text("30%"),
+                progressColor: Colors.orange,
+              ),
+              CircularPercentIndicator(
+                radius: 45.0,
+                lineWidth: 4.0,
+                percent: 0.60,
+                center: const Text("60%"),
+                progressColor: Colors.yellow,
+              ),
+            ],
+          )),
         ]));
   }
 
@@ -110,6 +146,7 @@ class _HomePageState extends State<HomePage> {
               yValueMapper: (_Point value, _) => value.amount)
         ]);
   }
+
 }
 
 class _Point {

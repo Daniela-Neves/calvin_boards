@@ -14,7 +14,12 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  final _signUpRepository = SignUpRepository();
+
   bool notificacoes = true;
+  bool modoNoturno = true;
+  bool email = true;
+  bool sms = true;
 
   late SignUpProvider signUpProvider;
 
@@ -26,6 +31,7 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
+    final SignUpProvider users = Provider.of(context);
     return Scaffold(
         appBar: AppBar(
             title: const Text("Configurações"),
@@ -56,11 +62,55 @@ class _SettingsPageState extends State<SettingsPage> {
                 setState(() {
                   notificacoes = state;
                 });
-              })
+              }),
+          SwitchListTile(
+            activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
+            title: const Text("Tema Noturno"),
+            value: modoNoturno,
+            onChanged: (state) {
+              setState(() {
+                modoNoturno = state;
+              });
+            },
+          ),
+          SwitchListTile(
+            activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
+            title: const Text("Enviar notificações por e-mail"),
+            value: email,
+            onChanged: (state) {
+              setState(() {
+                email = state;
+              });
+            },
+          ),
+          SwitchListTile(
+            activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
+            title: const Text("Enviar notificações por SMS"),
+            value: sms,
+            onChanged: (state) {
+              setState(() {
+                sms = state;
+              });
+            },
+          ),
+          ListTile(
+              textColor: Colors.red,
+              title: const Text("Excluir Conta"),
+              trailing: const Icon(
+                Icons.delete_rounded,
+                //color: Colors.red,
+                size: 30,
+              ),
+              onTap: () async {
+                Provider.of<SignUpProvider>(context, listen: false).remover();
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Cadastro removido com sucesso')));
+                Navigator.of(context).pushNamed('/login');
+              }),
         ]));
   }
 
-  /*Widget _buildConfig() {
+/*Widget _buildConfig() {
     return ListView(
       children: [
         ListTile(
