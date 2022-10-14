@@ -20,45 +20,73 @@ class _EquipmentPageState extends State<EquipmentPage> {
   void initState() {
     super.initState();
   }
-//Editar os dados, colocar dados reais
 
-  List<_Point> soyExports2021 = [
-    _Point('Jan', 49.606),
-    _Point('Fev', 2646.546),
-    _Point('Mar', 12694.341),
-    _Point('Abr', 16619.467),
-    _Point('Mai', 15465.736),
-    _Point('Jun', 11568.091),
-    _Point('Jul', 8675.830),
-    _Point('Ago', 6480.259),
-    _Point('Set', 4858.458),
-    _Point('Out', 3294.671),
-    _Point('Nov', 2605.951),
-    _Point('Dez', 2739.225),
+  List<_Point> truckProduction2020 = [
+    _Point('Jan	', 7169),
+    _Point('Fev	', 9131),
+    _Point('Mar	', 8406),
+    _Point('Abr	', 403),
+    _Point('Mai	', 4054),
+    _Point('Jun	', 5575),
+    _Point('Jul	', 6820),
+    _Point('Ago	', 7087),
+    _Point('Set	', 9430),
+    _Point('Out	', 10902),
+    _Point('Nov	', 11474),
+    _Point('Dez	', 10485),
+  ];
+
+  List<_Point> truckProduction2021 = [
+    _Point('Jan	', 8805),
+    _Point('Fev	', 11805),
+    _Point('Mar	', 12472),
+    _Point('Abr	', 13093),
+    _Point('Mai	', 13908),
+    _Point('Jun	', 14639),
+    _Point('Jul	', 14801),
+    _Point('Ago	', 14963),
+    _Point('Set	', 13816),
+    _Point('Out	', 13733),
+    _Point('Nov	', 14380),
+    _Point('Dez	', 12395),
+  ];
+
+  List<_Point> truckProduction2022 = [
+    _Point('Jan	', 9463),
+    _Point('Fev	', 11389),
+    _Point('Mar	', 13531),
+    _Point('Abr	', 10072),
+    _Point('Mai	', 13947),
+    _Point('Jun	', 13370),
+    _Point('Jul	', 12724),
+    _Point('Ago	', 17223),
+    _Point('Set	', 14956),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Equipamentos"),
+        appBar: AppBar(
+            title: const Text("Equipamentos"),
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
                   Navigator.pop(context);
                 }),
             actions: <Widget>[
-          IconButton(
-              icon: Badge(
-                  badgeContent: Text(context
-                      .watch<NotificationsProvider>()
-                      .unreadCount()
-                      .toString()),
-                  child: const Icon(Icons.notifications, color: Colors.white)),
-              onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const NotificationsPage()));
-              })
-        ]),
+              IconButton(
+                  icon: Badge(
+                      badgeContent: Text(context
+                          .watch<NotificationsProvider>()
+                          .unreadCount()
+                          .toString()),
+                      child:
+                          const Icon(Icons.notifications, color: Colors.white)),
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const NotificationsPage()));
+                  })
+            ]),
         drawer: ChangeNotifierProvider<SignUpProvider>.value(
             builder: (context, child) => DefaultDrawer(),
             value: Provider.of<SignUpProvider>(context)),
@@ -70,49 +98,37 @@ class _EquipmentPageState extends State<EquipmentPage> {
   Widget _buildChart() {
     return SfCartesianChart(
         margin:
-        const EdgeInsets.only(top: 60, left: 40, right: 40, bottom: 100),
-        primaryYAxis: NumericAxis(
-            title: AxisTitle(text: "Milhões de toneladas"),
-            numberFormat: NumberFormat.compact()),
+            const EdgeInsets.only(top: 60, left: 40, right: 40, bottom: 100),
+        primaryYAxis: NumericAxis(numberFormat: NumberFormat.compact()),
         primaryXAxis: CategoryAxis(),
-        title: ChartTitle(text: 'Equipamentos exportados por mês'),
+        title: ChartTitle(text: 'Caminhões pesados produzidos por mês'),
         legend: Legend(
             isVisible: true,
             title: LegendTitle(
-                alignment: ChartAlignment.center,
-                text:
-                "Equipamentos caiu 21% em 2022.\nFonte: Comex Stat - MDIC")),
+                alignment: ChartAlignment.center, text: "Fonte: ANFAVEA")),
         tooltipBehavior: TooltipBehavior(enable: true),
         series: <ChartSeries<_Point, String>>[
+          LineSeries<_Point, String>(
+              color: Colors.red,
+              markerSettings: const MarkerSettings(isVisible: true),
+              name: "2020",
+              dataSource: truckProduction2020,
+              xValueMapper: (_Point value, _) => value.month,
+              yValueMapper: (_Point value, _) => value.amount,
+              dataLabelSettings: const DataLabelSettings(isVisible: true)),
           LineSeries<_Point, String>(
               color: Colors.blue,
               markerSettings: const MarkerSettings(isVisible: true),
               name: "2021",
-              dataSource: soyExports2021,
+              dataSource: truckProduction2021,
               xValueMapper: (_Point value, _) => value.month,
-              yValueMapper: (_Point value, _) => value.amount.round(),
+              yValueMapper: (_Point value, _) => value.amount,
               dataLabelSettings: const DataLabelSettings(isVisible: true)),
           LineSeries<_Point, String>(
               color: Colors.green,
               markerSettings: const MarkerSettings(isVisible: true),
               name: "2022",
-              dataSource: <_Point>[
-                _Point('Jan', 2451.828),
-                _Point('Fev', 6274.365),
-                _Point('Mar', 12232.570),
-                _Point('Abr', 11481.981),
-                _Point('Mai', 10657.844),
-                _Point('Jun', 10088.221),
-                _Point('Jul', 7561.542),
-                _Point('Ago', 6117.405),
-                _Point('Set', 4292.326),
-              ],
-              xValueMapper: (_Point value, _) => value.month,
-              yValueMapper: (_Point value, _) => value.amount.round()),
-          AreaSeries(
-              name: "Período de alta",
-              color: const Color.fromARGB(19, 244, 67, 54),
-              dataSource: soyExports2021.sublist(2, 6),
+              dataSource: truckProduction2022,
               xValueMapper: (_Point value, _) => value.month,
               yValueMapper: (_Point value, _) => value.amount)
         ]);

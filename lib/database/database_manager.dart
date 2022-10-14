@@ -31,12 +31,11 @@ class DatabaseManager {
 ''';
 
   String get _dados => '''
-  CREATE TABLE IF NOT EXISTS dados (
-    data INTEGER NOT NULL,
-    produto TEXT NOT NULL,
-    producao INT NOT NULL,
+  CREATE TABLE IF NOT EXISTS dados_agro (
+    data TEXT NOT NULL,
+    valor INTEGER NOT NULL,
+    descricao
     PRIMARY KEY (data, produto, producao)
   )
-
 ''';
 }

@@ -1,4 +1,5 @@
 import 'package:calvin_boards/models/sign_up.dart';
+import 'package:calvin_boards/pages/login_page.dart';
 import 'package:calvin_boards/pages/my_account_page.dart';
 import 'package:calvin_boards/pages/signup_page.dart';
 import 'package:calvin_boards/providers/signup_provider.dart';
@@ -32,7 +33,6 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final SignUpProvider users = Provider.of(context);
     return Scaffold(
         appBar: AppBar(
             title: const Text("Configurações"),
@@ -50,10 +50,11 @@ class _SettingsPageState extends State<SettingsPage> {
                     context,
                     MaterialPageRoute(
                         builder: (context) =>
-                            ChangeNotifierProvider<SignUpProvider>(
-                                builder: (context, child) =>
-                                    const MyAccountPage(),
-                                create: (_) => signUpProvider)));
+                            ChangeNotifierProvider<SignUpProvider>.value(
+                              value: context.read<SignUpProvider>(),
+                              builder: (context, child) =>
+                                  const MyAccountPage(),
+                            )));
               }),
           SwitchListTile(
               activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
@@ -102,112 +103,33 @@ class _SettingsPageState extends State<SettingsPage> {
                 //color: Colors.red,
                 size: 30,
               ),
-              onTap: () async {
-                Provider.of<SignUpProvider>(context, listen: false).remover();
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Cadastro removido com sucesso')));
-                Navigator.of(context).pushNamed('/login');
+              onTap: () {
+                _buildConfirmationDialog(context);
               }),
         ]));
   }
 
-/*Widget _buildConfig() {
-    return ListView(
-      children: [
-        ListTile(
-            title: const Text("Meu Perfil"),
-            trailing: const Icon(Icons.arrow_forward),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ChangeNotifierProvider<SignUpProvider>(
-                              child: const SignUpPage(),
-                              create: (context) =>
-                                  context.read<SignUpProvider>())));
+  AlertDialog _buildConfirmationDialog(BuildContext context) {
+    return AlertDialog(
+      title: const Text("Atenção"),
+      content: const Text("Essa ação não pode ser desfeita. Deseja continuar?"),
+      actions: [
+        TextButton(
+          child: const Text("Confirmar"),
+          onPressed: () {
+            Provider.of<SignUpProvider>(context, listen: false).remover();
+            ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Cadastro removido com sucesso')));
+            Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const LoginPage()));
+          },
+        ),
+        TextButton(
+            child: const Text("Cancelar"),
+            onPressed: () {
+              Navigator.of(context).pop();
             }),
-        SwitchListTile(
-            title: const Text("Notificações"),
-            value: notificacoes,
-            onChanged: (state) {
-              setState(() {
-                notificacoes = state;
-              });
-            })
       ],
     );
   }
-  Widget _buildConfig() {
-    return Scaffold(
-      body: FutureBuilder<List<SignUp>>(
-        future: _futureSignUp,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          if (snapshot.connectionState == ConnectionState.done) {
-            final cadastros = snapshot.data ?? [];
-            return ListView.separated(
-              itemCount: cadastros.length,
-              itemBuilder: (context, index) {
-                final cadastro = cadastros[index];
-                return Slidable(
-                  endActionPane: ActionPane(
-                    motion: const ScrollMotion(),
-                    children: [
-                      SlidableAction(
-                        onPressed: (context) async {
-                          await _signUpRepository.remover(cadastro.id!);
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content:
-                                      Text('Cadastro removido com sucesso')));
-
-                          setState(() {
-                            cadastros.removeAt(index);
-                          });
-                        },
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
-                        icon: Icons.delete,
-                        label: 'Remover',
-                      ),
-                      SlidableAction(
-                        onPressed: (context) async {
-                          var success = await Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) => SignUpPage(
-                                signUpParaEdicao: cadastro,
-                              ),
-                            ),
-                          ) as bool?;
-
-                          if (success != null && success) {
-                            setState(() {
-                              carregarCadastros();
-                            });
-                          }
-                        },
-                        backgroundColor: Colors.blue,
-                        foregroundColor: Colors.white,
-                        icon: Icons.edit,
-                        label: 'Editar',
-                      ),
-                    ],
-                  ),
-                  child: SignUpListItem(signUp: cadastro),
-                );
-              },
-              separatorBuilder: (context, index) => const Divider(),
-            );
-          }
-          return Container();
-        },
-      ),
-    );
-  }*/
 }
