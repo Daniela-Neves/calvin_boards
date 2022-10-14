@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import '../models/app_notification.dart';
 
 class NotificationsProvider extends ChangeNotifier {
+
+  bool _disposed = false;
+
   final List<AppNotification> _notifications = [
     AppNotification(
         isRead: false,
@@ -55,5 +58,18 @@ class NotificationsProvider extends ChangeNotifier {
 
   AppNotification? getByIndex(int index) {
     return _notifications[index];
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
+  @override
+  void notifyListeners() {
+    if (!_disposed) {
+      super.notifyListeners();
+    }
   }
 }

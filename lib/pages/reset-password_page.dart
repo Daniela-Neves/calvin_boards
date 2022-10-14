@@ -18,6 +18,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         color: Colors.white,
         child: ListView(
           children: <Widget>[
+            IconButton(
+              alignment: Alignment.centerLeft,
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[

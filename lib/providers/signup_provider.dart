@@ -5,6 +5,7 @@ import '../database/database_manager.dart';
 class SignUpProvider extends ChangeNotifier {
   SignUp? signUp;
 
+  bool _disposed = false;
   final db = DatabaseManager().getDatabase();
 
   SignUpProvider();
@@ -30,9 +31,22 @@ class SignUpProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-    Future<void> remover() async {
-      final db = await DatabaseManager().getDatabase();
-      await db.delete('cadastros');
-      notifyListeners();
+  Future<void> remover() async {
+    final db = await DatabaseManager().getDatabase();
+    await db.delete('cadastros');
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _disposed = false;
+    super.dispose();
+  }
+
+  @override
+  void notifyListeners() {
+    if (_disposed) {
+      super.notifyListeners();
     }
+  }
 }

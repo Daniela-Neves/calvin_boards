@@ -20,6 +20,7 @@ class _SettingsPageState extends State<SettingsPage> {
   bool modoNoturno = true;
   bool email = true;
   bool sms = true;
+  bool _disposed = false;
 
   late SignUpProvider signUpProvider;
 

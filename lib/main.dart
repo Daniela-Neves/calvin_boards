@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
         title: 'Calvin Boards',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-            cardColor: const Color(0xFF041E42),
-            buttonTheme: const ButtonThemeData(buttonColor: Color(0xFF041E42)),
+            primarySwatch: Colors.indigo,
+            buttonTheme: const ButtonThemeData(buttonColor: Colors.indigo),
             toggleButtonsTheme: const ToggleButtonsThemeData(
                 selectedColor: Color.fromARGB(255, 83, 158, 99))),
         routes: {

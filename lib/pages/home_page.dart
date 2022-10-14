@@ -41,11 +41,6 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(title: const Text("Home"),
-            leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context);
-                }),
             actions: <Widget>[
           IconButton(
               icon: Badge(
@@ -65,39 +60,14 @@ class _HomePageState extends State<HomePage> {
         body:
         Column
           (children: [
-          Expanded(child: _buildChart()),
           Expanded(child:
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              CircularPercentIndicator(
-                radius: 45.0,
-                lineWidth: 4.0,
-                percent: 0.10,
-                center: const Text("10%"),
-                progressColor: Colors.red,
-              ),
-              CircularPercentIndicator(
-                radius: 45.0,
-                lineWidth: 4.0,
-                percent: 0.30,
-                center: const Text("30%"),
-                progressColor: Colors.orange,
-              ),
-              CircularPercentIndicator(
-                radius: 45.0,
-                lineWidth: 4.0,
-                percent: 0.60,
-                center: const Text("60%"),
-                progressColor: Colors.yellow,
-              ),
-            ],
-          )),
+            _buildChart()),
         ]));
   }
 
   Widget _buildChart() {
-    return SfCartesianChart(
+    return Container(
+      child: SfCartesianChart(
         margin:
             const EdgeInsets.only(top: 60, left: 40, right: 40, bottom: 100),
         primaryYAxis: NumericAxis(
@@ -144,7 +114,7 @@ class _HomePageState extends State<HomePage> {
               dataSource: soyExports2021.sublist(2, 6),
               xValueMapper: (_Point value, _) => value.month,
               yValueMapper: (_Point value, _) => value.amount)
-        ]);
+        ]));
   }
 
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ScaniaTheme {
-  Color primarySwatch = const Color(0xFF041E42);
-  final buttonTheme = const ButtonThemeData(buttonColor: Color(0xFF041E42));
+  MaterialColor primarySwatch = Colors.indigo;
+  final buttonTheme = const ButtonThemeData(buttonColor: Colors.indigo);
   final toggleTheme = const ToggleButtonsThemeData(
       selectedColor: Color.fromARGB(255, 83, 158, 99));
 
