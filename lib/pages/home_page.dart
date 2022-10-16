@@ -57,10 +57,16 @@ class _HomePageState extends State<HomePage> {
           children: [
             const Center(
                 child: Padding(
-              padding: EdgeInsets.only(top: 15, bottom: 20),
+              padding: EdgeInsets.only(top: 30, bottom: 20),
               child: Text("Seja bem vindo de volta!",
                   style: TextStyle(fontSize: 18)),
             )),
+            const Center(
+                child: Padding(
+                  padding: EdgeInsets.only(top: 40, bottom: 30),
+                  child: Text("Comercializção de safras 2021/2022",
+                      style: TextStyle(fontSize: 18)),
+                )),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
@@ -75,11 +81,11 @@ class _HomePageState extends State<HomePage> {
     return Container(
       alignment: Alignment.centerLeft,
       child: CircularPercentIndicator(
-        footer: const Text('Tal coisa'),
+        footer: const Text('Café'),
         radius: 45.0,
         lineWidth: 4.0,
-        percent: 0.10,
-        center: const Text("10%"),
+        percent: 0.98,
+        center: const Text("98%"),
         progressColor: Colors.red,
       ),
     );
@@ -89,10 +95,10 @@ class _HomePageState extends State<HomePage> {
     return Container(
       alignment: Alignment.center,
       child: CircularPercentIndicator(
-        footer: const Text('Soja 2021/2022'),
+        footer: const Text('Soja'),
         radius: 45.0,
         lineWidth: 4.0,
-        percent: 0.80,
+        percent: 0.79,
         center: const Text("79,20%"),
         progressColor: Colors.blue,
       ),
@@ -103,11 +109,11 @@ class _HomePageState extends State<HomePage> {
     return Container(
       alignment: Alignment.centerRight,
       child: CircularPercentIndicator(
-        footer: const Text('Tal coisa'),
+        footer: const Text('Milho'),
         radius: 45.0,
         lineWidth: 4.0,
-        percent: 0.50,
-        center: const Text("50%"),
+        percent: 0.57,
+        center: const Text("57,86%"),
         progressColor: Colors.yellow,
       ),
     );
