@@ -4,7 +4,7 @@ import 'package:calvin_boards/providers/signup_provider.dart';
 import 'package:calvin_boards/repository/sign_up_repository.dart';
 import 'package:provider/provider.dart';
 
-import '../pages/reset-password_page.dart';
+import 'reset_password_page.dart';
 import '../pages/signup_page.dart';
 import 'package:flutter/material.dart';
 
@@ -36,14 +36,16 @@ class _LoginPageState extends State<LoginPage> {
         color: Colors.white,
         child: ListView(
           children: <Widget>[
-            const SizedBox(
-              width: 128,
-              height: 128,
-              child: Icon(
-                Icons.insert_chart_outlined_outlined,
-                color: Color(0xFF041E42),
-                size: 100,
-              ),
+            Column(
+              children: const [
+                Icon(
+                  Icons.insert_chart_outlined_outlined,
+                  color: Color(0xFF041E42),
+                  size: 100,
+                ),
+                Text("Calvin Boards",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30))
+              ],
             ),
             const SizedBox(
               height: 20,
@@ -224,6 +226,7 @@ class _LoginPageState extends State<LoginPage> {
         if (!regex.hasMatch(value)) {
           return "ID contém somente números.";
         }
+        return null;
       },
       decoration: const InputDecoration(
         labelText: "Scania ID:",
@@ -250,6 +253,7 @@ class _LoginPageState extends State<LoginPage> {
         if (value.length < 4) {
           return "A senha contém no mínimo 4 caracteres.";
         }
+        return null;
       },
       decoration: const InputDecoration(
         labelText: "Senha:",

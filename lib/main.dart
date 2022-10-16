@@ -1,5 +1,6 @@
 import 'package:calvin_boards/pages/home_page.dart';
 import 'package:calvin_boards/pages/login_page.dart';
+import 'package:calvin_boards/pages/report_details_page.dart';
 import 'package:calvin_boards/pages/settings.dart';
 import 'package:calvin_boards/pages/signup_page.dart';
 import 'package:calvin_boards/providers/notifications_provider.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
           '/signup': (context) => const SignUpPage(),
           '/home': (context) => const HomePage(),
           '/settings': (context) => const SettingsPage(),
+          '/report_details': (context) => ReportDetailsPage()
         },
         initialRoute: '/',
       ),

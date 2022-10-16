@@ -37,11 +37,22 @@ class _HomePageState extends State<HomePage> {
     _Point('Dez', 2739.225),
   ];
 
+  List<_Point> soyExports2022 = [
+    _Point('Jan', 2451.828),
+    _Point('Fev', 6274.365),
+    _Point('Mar', 12232.570),
+    _Point('Abr', 11481.981),
+    _Point('Mai', 10657.844),
+    _Point('Jun', 10088.221),
+    _Point('Jul', 7561.542),
+    _Point('Ago', 6117.405),
+    _Point('Set', 4292.326),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text("Home"),
-            actions: <Widget>[
+        appBar: AppBar(title: const Text("Home"), actions: <Widget>[
           IconButton(
               icon: Badge(
                   badgeContent: Text(context
@@ -57,17 +68,13 @@ class _HomePageState extends State<HomePage> {
         drawer: ChangeNotifierProvider<SignUpProvider>.value(
             builder: (context, child) => DefaultDrawer(),
             value: Provider.of<SignUpProvider>(context)),
-        body:
-        Column
-          (children: [
-          Expanded(child:
-            _buildChart()),
+        body: Column(children: [
+          Expanded(child: _buildChart()),
         ]));
   }
 
   Widget _buildChart() {
-    return Container(
-      child: SfCartesianChart(
+    return SfCartesianChart(
         margin:
             const EdgeInsets.only(top: 60, left: 40, right: 40, bottom: 100),
         primaryYAxis: NumericAxis(
@@ -95,17 +102,7 @@ class _HomePageState extends State<HomePage> {
               color: Colors.green,
               markerSettings: const MarkerSettings(isVisible: true),
               name: "2022",
-              dataSource: <_Point>[
-                _Point('Jan', 2451.828),
-                _Point('Fev', 6274.365),
-                _Point('Mar', 12232.570),
-                _Point('Abr', 11481.981),
-                _Point('Mai', 10657.844),
-                _Point('Jun', 10088.221),
-                _Point('Jul', 7561.542),
-                _Point('Ago', 6117.405),
-                _Point('Set', 4292.326),
-              ],
+              dataSource: soyExports2022,
               xValueMapper: (_Point value, _) => value.month,
               yValueMapper: (_Point value, _) => value.amount.round()),
           AreaSeries(
@@ -114,9 +111,8 @@ class _HomePageState extends State<HomePage> {
               dataSource: soyExports2021.sublist(2, 6),
               xValueMapper: (_Point value, _) => value.month,
               yValueMapper: (_Point value, _) => value.amount)
-        ]));
+        ]);
   }
-
 }
 
 class _Point {

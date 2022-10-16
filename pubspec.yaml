@@ -29,13 +29,7 @@ environment:
 dependencies:
   flutter_native_splash: ^2.2.11
   email_validator: '^2.1.16'
-  flutter:
-    sdk: flutter
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.2
+    #cupertino_icons: ^1.0.2
   intl: ^0.17.0
   flutter_masked_text2: ^0.9.1
   sqflite: ^2.0.3+1
@@ -46,6 +40,24 @@ dependencies:
   badges: ^2.0.3
   http: ^0.13.0
   percent_indicator: ^4.0.1
+  flutter_launcher_icons: ^0.10.0
+  flutter:
+    sdk: flutter
+
+flutter_icons:
+  android: true
+  ios: false
+  image_path_android: "assets/icon/icon.png"
+  min_sdk_android: 17 # android min sdk min:16, default 21
+  web:
+    generate: false
+    image_path: "path/to/image.png"
+    background_color: "#hexcode"
+    theme_color: "#hexcode"
+  windows:
+    generate: false
+    image_path: "path/to/image.png"
+    icon_size: 48 # min:48, max:256, default: 48
 
 dev_dependencies:
   flutter_test:

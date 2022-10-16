@@ -33,7 +33,7 @@ class SignUpProvider extends ChangeNotifier {
 
   Future<void> remover() async {
     final db = await DatabaseManager().getDatabase();
-    await db.delete('cadastros');
+    await db.delete('cadastros', where: "id = ?", whereArgs: [signUp!.id]);
     notifyListeners();
   }
 

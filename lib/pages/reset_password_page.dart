@@ -1,17 +1,16 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
 class ResetPasswordPage extends StatefulWidget {
-  const ResetPasswordPage ({Key? key}) : super(key: key);
+  const ResetPasswordPage({Key? key}) : super(key: key);
 
   @override
   State<ResetPasswordPage> createState() => _ResetPasswordPageState();
 }
 
 class _ResetPasswordPageState extends State<ResetPasswordPage> {
-
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.only(top: 60, left: 40, right: 40),
@@ -19,7 +18,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         child: ListView(
           children: <Widget>[
             IconButton(
-              alignment: Alignment.centerLeft,
+                alignment: Alignment.centerLeft,
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
                   Navigator.pop(context);
@@ -29,10 +28,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               children: <Widget>[
                 Column(
                   children: const <Widget>[
-                    SizedBox(
-                        width: 200,
-                        height: 100
-                    ),
+                    SizedBox(width: 200, height: 100),
                     SizedBox(
                       height: 20,
                     ),
@@ -49,32 +45,28 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                 const SizedBox(
                   height: 40,
                 ),
-                Container(
+                SizedBox(
                   width: double.infinity,
                   child: Column(
                     children: <Widget>[
-                   TextFormField(
-                  keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(
-                      labelText: "E-mail",
-                      labelStyle: TextStyle(
-                        color: Colors.black38,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 20,
-                      ),
-                    ),
-                    validator: (value) {
-                      String pattern =
-                          r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-                      RegExp regExp = RegExp(pattern);
-
-                      if (value == null || value.isEmpty) {
-                        return "Informe seu email";
-                      } else if (!regExp.hasMatch(value)) {
-                        return 'Formato de email inválido';
-                      }
-                      return null;
-                    },
+                      TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: const InputDecoration(
+                          labelText: "E-mail",
+                          labelStyle: TextStyle(
+                            color: Colors.black38,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 20,
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Informe seu email";
+                          } else if (!EmailValidator.validate(value)) {
+                            return 'Formato de email inválido';
+                          }
+                          return null;
+                        },
                         style: const TextStyle(fontSize: 20),
                       ),
                       const SizedBox(
@@ -105,8 +97,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                 ),
                               ],
                             ),
-                            onPressed: () {
-                            },
+                            onPressed: () {},
                           ),
                         ),
                       ),

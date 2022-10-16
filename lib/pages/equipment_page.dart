@@ -63,8 +63,43 @@ class _EquipmentPageState extends State<EquipmentPage> {
     _Point('Set	', 14956),
   ];
 
+  final List<Map<String, dynamic>> reports = [
+    {
+      "title": "Produção de carros é maior que período pré-pandemia; "
+          "recuperação é melhor que a dos carros",
+      "number": 3
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+            title: const Text("Equipamentos"),
+            leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                })),
+        drawer: ChangeNotifierProvider<SignUpProvider>.value(
+            builder: (context, child) => DefaultDrawer(),
+            value: Provider.of<SignUpProvider>(context)),
+        body: _buildListView());
+  }
+
+  ListView _buildListView() {
+    return ListView.builder(
+        itemCount: reports.length,
+        itemBuilder: (context, index) => ListTile(
+            title: Text(reports[index]["title"]),
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () {
+              Navigator.of(context).pushNamed('/report_details',
+                  arguments: reports[index]["number"]);
+            }));
+  }
+
+  Widget build2(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
             title: const Text("Equipamentos"),
@@ -101,7 +136,7 @@ class _EquipmentPageState extends State<EquipmentPage> {
             const EdgeInsets.only(top: 60, left: 40, right: 40, bottom: 100),
         primaryYAxis: NumericAxis(numberFormat: NumberFormat.compact()),
         primaryXAxis: CategoryAxis(),
-        title: ChartTitle(text: 'Caminhões pesados produzidos por mês'),
+        title: ChartTitle(text: 'Caminhões produzidos por mês'),
         legend: Legend(
             isVisible: true,
             title: LegendTitle(

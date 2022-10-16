@@ -1,11 +1,8 @@
-import 'package:calvin_boards/models/sign_up.dart';
 import 'package:calvin_boards/pages/login_page.dart';
 import 'package:calvin_boards/pages/my_account_page.dart';
-import 'package:calvin_boards/pages/signup_page.dart';
 import 'package:calvin_boards/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../repository/sign_up_repository.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -15,13 +12,10 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  final _signUpRepository = SignUpRepository();
-
   bool notificacoes = true;
   bool modoNoturno = true;
   bool email = true;
   bool sms = true;
-  bool _disposed = false;
 
   late SignUpProvider signUpProvider;
 

@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class DefaultDrawer extends Drawer {
   DefaultDrawer({super.key});
 
-  List<Page> pages = [
+  final List<Page> pages = [
     Page(
         nome: "Home",
         icone: Icons.home,
