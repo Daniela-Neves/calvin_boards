@@ -1,13 +1,8 @@
-import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:provider/provider.dart';
 
 import '../components/default_drawer.dart';
-import '../providers/notifications_provider.dart';
 import '../providers/signup_provider.dart';
-import 'notifications_page.dart';
 
 class AgriculturePage extends StatefulWidget {
   const AgriculturePage({Key? key}) : super(key: key);
@@ -84,79 +79,6 @@ class _AgriculturePageState extends State<AgriculturePage> {
               Navigator.of(context).pushNamed('/report_details',
                   arguments: reports[index]["number"]);
             }));
-  }
-
-  //build2, o método abaixo, é um "backup" do método build original
-  Widget build2(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-            title: const Text("Agricultura"),
-            leading: IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context);
-                }),
-            actions: <Widget>[
-              IconButton(
-                  icon: Badge(
-                      badgeContent: Text(context
-                          .watch<NotificationsProvider>()
-                          .unreadCount()
-                          .toString()),
-                      child:
-                          const Icon(Icons.notifications, color: Colors.white)),
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const NotificationsPage()));
-                  })
-            ]),
-        drawer: ChangeNotifierProvider<SignUpProvider>.value(
-            builder: (context, child) => DefaultDrawer(),
-            value: Provider.of<SignUpProvider>(context)),
-        body: Column(children: [
-          Expanded(child: _buildChart()),
-        ]));
-  }
-
-  Widget _buildChart() {
-    return SfCartesianChart(
-        margin:
-            const EdgeInsets.only(top: 60, left: 40, right: 40, bottom: 100),
-        primaryYAxis: NumericAxis(
-            title: AxisTitle(text: "Milhões de toneladas"),
-            numberFormat: NumberFormat.compact()),
-        primaryXAxis: CategoryAxis(),
-        title: ChartTitle(text: 'Equipamentos exportados por mês'),
-        legend: Legend(
-            isVisible: true,
-            title: LegendTitle(
-                alignment: ChartAlignment.center,
-                text:
-                    "Equipamentos caiu 21% em 2022.\nFonte: Comex Stat - MDIC")),
-        tooltipBehavior: TooltipBehavior(enable: true),
-        series: <ChartSeries<_Point, String>>[
-          LineSeries<_Point, String>(
-              color: Colors.blue,
-              markerSettings: const MarkerSettings(isVisible: true),
-              name: "2021",
-              dataSource: soyExports2021,
-              xValueMapper: (_Point value, _) => value.month,
-              yValueMapper: (_Point value, _) => value.amount.round(),
-              dataLabelSettings: const DataLabelSettings(isVisible: true)),
-          LineSeries<_Point, String>(
-              color: Colors.green,
-              markerSettings: const MarkerSettings(isVisible: true),
-              name: "2022",
-              dataSource: soyExports2022,
-              xValueMapper: (_Point value, _) => value.month,
-              yValueMapper: (_Point value, _) => value.amount.round()),
-          AreaSeries(
-              name: "Período de alta",
-              color: const Color.fromARGB(19, 244, 67, 54),
-              dataSource: soyExports2021.sublist(2, 6),
-              xValueMapper: (_Point value, _) => value.month,
-              yValueMapper: (_Point value, _) => value.amount)
-        ]);
   }
 }
 

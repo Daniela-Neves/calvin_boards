@@ -7,6 +7,7 @@ import 'package:calvin_boards/providers/notifications_provider.dart';
 import 'package:calvin_boards/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -23,6 +24,13 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => NotificationsProvider())
       ],
       builder: (context, child) => MaterialApp(
+        localizationsDelegates: const [
+          GlobalCupertinoLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate
+        ],
+        supportedLocales: const [
+          Locale('pt'),
+        ],
         title: 'Calvin Boards',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -36,7 +44,7 @@ class MyApp extends StatelessWidget {
           '/signup': (context) => const SignUpPage(),
           '/home': (context) => const HomePage(),
           '/settings': (context) => const SettingsPage(),
-          '/report_details': (context) => ReportDetailsPage()
+          '/report_details': (context) => const ReportDetailsPage()
         },
         initialRoute: '/',
       ),

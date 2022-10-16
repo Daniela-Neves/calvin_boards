@@ -3,9 +3,7 @@ import 'package:calvin_boards/pages/notifications_page.dart';
 import 'package:calvin_boards/providers/notifications_provider.dart';
 import 'package:calvin_boards/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:badges/badges.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 

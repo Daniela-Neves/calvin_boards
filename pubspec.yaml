@@ -38,12 +38,15 @@ dependencies:
   syncfusion_flutter_charts: ^20.2.50
   provider: ^6.0.3
   badges: ^2.0.3
-  http: ^0.13.0
   percent_indicator: ^4.0.1
   flutter_launcher_icons: ^0.10.0
   flutter:
     sdk: flutter
-
+  flutter_localizations:
+    sdk: flutter
+  screenshot: ^1.2.3
+  path_provider: ^2.0.11
+  share: ^2.0.4
 flutter_icons:
   android: true
   ios: false

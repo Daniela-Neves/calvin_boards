@@ -1,9 +1,14 @@
-import 'package:calvin_boards/pages/equipment_page.dart';
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui';
 import 'package:calvin_boards/repository/agriculture_repository.dart';
 import 'package:calvin_boards/repository/equipment_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:screenshot/screenshot.dart';
+import 'package:share/share.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ReportDetailsPage extends StatefulWidget {
   const ReportDetailsPage({Key? key}) : super(key: key);
@@ -46,7 +51,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
     return _scaffoldBuilder(context, reportNumber);
   }
 
-  Scaffold _scaffoldBuilder(BuildContext context, int reportNumber) {
+  Widget _scaffoldBuilder(BuildContext context, int reportNumber) {
     Widget reportWidget;
 
     switch (reportNumber) {
@@ -59,22 +64,48 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
       case 3:
         reportWidget = _buildEquipReport3();
         break;
+      case 4:
+        reportWidget = _buildEquipReport4();
+        break;
       default:
-        reportWidget = _buildAgroReport2();
+        reportWidget = const Text("Nenhum relatório especificado.");
     }
+    ScreenshotController _screenshotController = ScreenshotController();
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            icon: const Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.of(context).pop();
-            }),
-        title: const Text("Relatório"),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.share))],
-      ),
-      body: reportWidget,
-    );
+    return Screenshot(
+        controller: _screenshotController,
+        child: Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                }),
+            title: const Text("Relatório"),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    takePicture(_screenshotController);
+                  },
+                  icon: const Icon(Icons.share))
+            ],
+          ),
+          body: reportWidget,
+        ));
+  }
+
+  Future<void> takePicture(ScreenshotController controller) async {
+    await controller.capture().then((Uint8List? image) async {
+      if (image != null) {
+        final directory = await getApplicationDocumentsDirectory();
+        final imagePath =
+            await File('${directory.path}/relatorio.png').create();
+        await imagePath.writeAsBytes(image);
+
+        await Share.shareFiles([imagePath.path],
+            text: 'Veja esse relatório do Calvin Boards');
+      }
+    });
   }
 
   Widget _buildAgroReport1() {
@@ -215,24 +246,25 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
               return const CircularProgressIndicator();
             }
             return SizedBox(
-                width: MediaQuery.of(context).size.width,
-                height: 500,
+                width: (window.physicalSize.shortestSide /
+                    window.devicePixelRatio),
+                height: 0.7 *
+                    (window.physicalSize.longestSide / window.devicePixelRatio),
                 child: SfCartesianChart(
                     margin: const EdgeInsets.only(
-                        top: 60, left: 40, right: 40, bottom: 100),
+                        top: 15, left: 10, right: 10, bottom: 10),
                     primaryYAxis: NumericAxis(
-                        title: AxisTitle(text: "Produzidos"),
+                        title: AxisTitle(text: "Caminhões"),
                         numberFormat: NumberFormat.compact()),
                     primaryXAxis: CategoryAxis(),
                     axes: [
                       NumericAxis(
+                          name: "cars",
                           title: AxisTitle(text: "Carros"),
-                          name: "car",
-                          numberFormat: NumberFormat.compact(),
-                          opposedPosition: true),
+                          opposedPosition: true,
+                          numberFormat: NumberFormat.compact())
                     ],
-                    title: ChartTitle(
-                        text: 'Produção de caminhões e carros mensal'),
+                    title: ChartTitle(text: 'Produção de carros e caminhões'),
                     legend: Legend(
                         isVisible: true,
                         title: LegendTitle(
@@ -244,10 +276,10 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                           color: Colors.blue,
                           markerSettings:
                               const MarkerSettings(isVisible: false),
-                          name: "Produção",
+                          name: "Caminhões",
                           dataSource: snapshot.data as List<EquipmentRow>,
                           xValueMapper: (EquipmentRow value, _) =>
-                              value.yearMonth,
+                              value.yearMonthStrLong(),
                           yValueMapper: (EquipmentRow value, _) =>
                               value.truckProduction),
                       LineSeries<EquipmentRow, String>(
@@ -255,25 +287,113 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
                           markerSettings:
                               const MarkerSettings(isVisible: false),
                           name: "Carros",
-                          yAxisName: "car",
+                          yAxisName: "cars",
                           dataSource: snapshot.data as List<EquipmentRow>,
                           xValueMapper: (EquipmentRow value, _) =>
-                              value.yearMonth,
+                              value.yearMonthStrLong(),
                           yValueMapper: (EquipmentRow value, _) =>
                               value.carProduction),
+                      AreaSeries(
+                          name: "Pandemia (aprox.)",
+                          color: const Color.fromARGB(109, 252, 127, 118),
+                          dataSource: _selectPandemicRows(
+                              (snapshot.data as List<EquipmentRow>)),
+                          xValueMapper: (EquipmentRow value, _) =>
+                              value.yearMonthStrLong(),
+                          yValueMapper: (EquipmentRow value, _) =>
+                              value.truckProduction)
                     ]));
 
             ;
           }),
-      // const Padding(
-      //   padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-      //   child: Text(
-      //       "A produção da cana-de-açúcar no Paraná vem caindo nos últimos 5 "
-      //       "anos. Uma regressão polinomial, com 93% de confiança, mostra que "
-      //       "em um ano e meio, a produção será a metade em relação a 2017."),
-      // )
+      const Padding(
+        padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+        child: Text(
+            " A produção de caminhões está se recuperando bem dos impactos da "
+            "pandemia, atingindo até níveis superiores a antes do fenômeno. "
+            "Essa recuperação está melhor que o setor de carros, que ainda não"
+            " reestabeleceu os níveis de produção."),
+      )
     ]);
   }
+
+  List<EquipmentRow> _selectPandemicRows(List<EquipmentRow> inputRows) {
+    return inputRows.where((element) {
+      return element.year() >= 2020 && element.year() < 2022;
+    }).toList();
+  }
+}
+
+Widget _buildEquipReport4() {
+  final repo = EquipmentRepository();
+  return ListView(children: [
+    FutureBuilder(
+        future: repo.getData(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return const CircularProgressIndicator();
+          }
+          return SizedBox(
+              width:
+                  (window.physicalSize.shortestSide / window.devicePixelRatio),
+              height: 0.7 *
+                  (window.physicalSize.longestSide / window.devicePixelRatio),
+              child: SfCartesianChart(
+                  margin: const EdgeInsets.only(
+                      top: 15, left: 10, right: 10, bottom: 10),
+                  primaryYAxis: NumericAxis(
+                      title: AxisTitle(text: "Produzidos/licenciados"),
+                      numberFormat: NumberFormat.compact()),
+                  primaryXAxis: CategoryAxis(),
+                  title:
+                      ChartTitle(text: 'Produção e licenciamento de caminhões'),
+                  legend: Legend(
+                      isVisible: true,
+                      title: LegendTitle(
+                          alignment: ChartAlignment.center,
+                          text: "Fonte: ANFAVEA")),
+                  tooltipBehavior: TooltipBehavior(enable: false),
+                  series: <ChartSeries<EquipmentRow, String>>[
+                    LineSeries<EquipmentRow, String>(
+                        color: const Color.fromARGB(115, 63, 81, 181),
+                        markerSettings: const MarkerSettings(isVisible: false),
+                        name: "Produzidos",
+                        dataSource: snapshot.data as List<EquipmentRow>,
+                        xValueMapper: (EquipmentRow value, _) =>
+                            value.yearMonthStr(),
+                        yValueMapper: (EquipmentRow value, _) =>
+                            value.truckProduction),
+                    LineSeries<EquipmentRow, String>(
+                        color: const Color.fromARGB(115, 76, 175, 79),
+                        name: "Licenciados",
+                        markerSettings: const MarkerSettings(isVisible: false),
+                        dataSource: snapshot.data as List<EquipmentRow>,
+                        xValueMapper: (EquipmentRow value, _) =>
+                            value.yearMonthStr(),
+                        yValueMapper: (EquipmentRow value, _) =>
+                            value.truckLicensing),
+                    LineSeries(
+                        name: "Diferença",
+                        dataSource: snapshot.data as List<EquipmentRow>,
+                        xValueMapper: (EquipmentRow value, _) =>
+                            value.yearMonthStr(),
+                        yValueMapper: (EquipmentRow value, _) =>
+                            value.truckProduction - value.truckLicensing),
+                  ]));
+
+          ;
+        }),
+    const Padding(
+      padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+      child: Text("A produção de caminhões no país parece acompanhar o número "
+          "de licenciamentos, sempre aumentando após um crescimento das "
+          "licenças. O mercado pode estar reagindo de forma exagerada à "
+          "recuperação pós-pandemia, elevando a produção após picos "
+          "insustentáveis de demanda. O número de licenciamentos na pandemia, "
+          "que chegou a superar a produção, já previa o crescimento na "
+          "demanda."),
+    )
+  ]);
 }
 
 class Point {

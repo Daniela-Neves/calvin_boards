@@ -206,11 +206,11 @@ class _SignUpPageState extends State<SignUpPage> {
         FocusScope.of(context).requestFocus(FocusNode());
 
         DateTime? dataSelecionada = await showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(1920),
-          lastDate: DateTime.now(),
-        );
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(1920),
+            lastDate: DateTime.now(),
+            locale: const Locale("pt", "BR"));
 
         if (dataSelecionada != null) {
           _dataController.text =
