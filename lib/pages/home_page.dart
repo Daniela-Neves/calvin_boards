@@ -20,6 +20,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late String nome;
+
   @override
   void initState() {
     super.initState();
@@ -34,33 +35,6 @@ class _HomePageState extends State<HomePage> {
     SignUp signUp = signUpProvider.getUsuario()!;
     nome = signUp.nome.toString();
   }
-
-  List<_Point> soyExports2021 = [
-    _Point('Jan', 49.606),
-    _Point('Fev', 2646.546),
-    _Point('Mar', 12694.341),
-    _Point('Abr', 16619.467),
-    _Point('Mai', 15465.736),
-    _Point('Jun', 11568.091),
-    _Point('Jul', 8675.830),
-    _Point('Ago', 6480.259),
-    _Point('Set', 4858.458),
-    _Point('Out', 3294.671),
-    _Point('Nov', 2605.951),
-    _Point('Dez', 2739.225),
-  ];
-
-  List<_Point> soyExports2022 = [
-    _Point('Jan', 2451.828),
-    _Point('Fev', 6274.365),
-    _Point('Mar', 12232.570),
-    _Point('Abr', 11481.981),
-    _Point('Mai', 10657.844),
-    _Point('Jun', 10088.221),
-    _Point('Jul', 7561.542),
-    _Point('Ago', 6117.405),
-    _Point('Set', 4292.326),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -140,11 +114,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-}
-
-class _Point {
-  _Point(this.month, this.amount);
-
-  final String month;
-  final num amount;
 }
