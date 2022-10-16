@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
             const Center(
                 child: Padding(
               padding: EdgeInsets.only(top: 40, bottom: 30),
-              child: Text("Comercializção de safras 2021/2022",
+              child: Text("Comercialização de safras de 2021/2022",
                   style: TextStyle(fontSize: 18)),
             )),
             Padding(
