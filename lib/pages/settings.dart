@@ -98,32 +98,42 @@ class _SettingsPageState extends State<SettingsPage> {
                 size: 30,
               ),
               onTap: () {
-                _buildConfirmationDialog(context);
+                showAlertDialog(context);
               }),
         ]));
   }
 
-  AlertDialog _buildConfirmationDialog(BuildContext context) {
-    return AlertDialog(
-      title: const Text("Atenção"),
-      content: const Text("Essa ação não pode ser desfeita. Deseja continuar?"),
+  showAlertDialog(BuildContext context) {
+    Widget cancelaButton = TextButton(
+      child: Text("Cancelar"),
+        onPressed: () {
+          Navigator.of(context).pop();
+        }
+    );
+    Widget continuaButton = TextButton(
+      child: Text("Continuar"),
+        onPressed: () {
+          Provider.of<SignUpProvider>(context, listen: false).remover();
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Cadastro removido com sucesso')));
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const LoginPage()));
+        },
+    );
+    AlertDialog alert = AlertDialog(
+      title: Text("Atenção"),
+      content: Text("Essa ação não pode ser desfeita. Deseja continuar?"),
       actions: [
-        TextButton(
-          child: const Text("Confirmar"),
-          onPressed: () {
-            Provider.of<SignUpProvider>(context, listen: false).remover();
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Cadastro removido com sucesso')));
-            Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const LoginPage()));
-          },
-        ),
-        TextButton(
-            child: const Text("Cancelar"),
-            onPressed: () {
-              Navigator.of(context).pop();
-            }),
+        cancelaButton,
+        continuaButton,
       ],
     );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
+
 }

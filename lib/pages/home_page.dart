@@ -20,6 +20,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late String nome;
+
   @override
   void initState() {
     super.initState();
@@ -34,33 +35,6 @@ class _HomePageState extends State<HomePage> {
     SignUp signUp = signUpProvider.getUsuario()!;
     nome = signUp.nome.toString();
   }
-
-  List<_Point> soyExports2021 = [
-    _Point('Jan', 49.606),
-    _Point('Fev', 2646.546),
-    _Point('Mar', 12694.341),
-    _Point('Abr', 16619.467),
-    _Point('Mai', 15465.736),
-    _Point('Jun', 11568.091),
-    _Point('Jul', 8675.830),
-    _Point('Ago', 6480.259),
-    _Point('Set', 4858.458),
-    _Point('Out', 3294.671),
-    _Point('Nov', 2605.951),
-    _Point('Dez', 2739.225),
-  ];
-
-  List<_Point> soyExports2022 = [
-    _Point('Jan', 2451.828),
-    _Point('Fev', 6274.365),
-    _Point('Mar', 12232.570),
-    _Point('Abr', 11481.981),
-    _Point('Mai', 10657.844),
-    _Point('Jun', 10088.221),
-    _Point('Jul', 7561.542),
-    _Point('Ago', 6117.405),
-    _Point('Set', 4292.326),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -81,53 +55,6 @@ class _HomePageState extends State<HomePage> {
         drawer: ChangeNotifierProvider<SignUpProvider>.value(
             builder: (context, child) => DefaultDrawer(),
             value: Provider.of<SignUpProvider>(context)),
-<<<<<<< HEAD
-        body: Column(children: [
-          Expanded(child: _buildChart()),
-        ]));
-  }
-
-  Widget _buildChart() {
-    return SfCartesianChart(
-        margin:
-            const EdgeInsets.only(top: 60, left: 40, right: 40, bottom: 100),
-        primaryYAxis: NumericAxis(
-            title: AxisTitle(text: "Milhões de toneladas"),
-            numberFormat: NumberFormat.compact()),
-        primaryXAxis: CategoryAxis(),
-        title: ChartTitle(text: 'Soja exportada por mês'),
-        legend: Legend(
-            isVisible: true,
-            title: LegendTitle(
-                alignment: ChartAlignment.center,
-                text:
-                    "Exportação de soja caiu 21% em 2022.\nFonte: Comex Stat - MDIC")),
-        tooltipBehavior: TooltipBehavior(enable: true),
-        series: <ChartSeries<_Point, String>>[
-          LineSeries<_Point, String>(
-              color: Colors.blue,
-              markerSettings: const MarkerSettings(isVisible: true),
-              name: "2021",
-              dataSource: soyExports2021,
-              xValueMapper: (_Point value, _) => value.month,
-              yValueMapper: (_Point value, _) => value.amount.round(),
-              dataLabelSettings: const DataLabelSettings(isVisible: true)),
-          LineSeries<_Point, String>(
-              color: Colors.green,
-              markerSettings: const MarkerSettings(isVisible: true),
-              name: "2022",
-              dataSource: soyExports2022,
-              xValueMapper: (_Point value, _) => value.month,
-              yValueMapper: (_Point value, _) => value.amount.round()),
-          AreaSeries(
-              name: "Período de alta",
-              color: const Color.fromARGB(19, 244, 67, 54),
-              dataSource: soyExports2021.sublist(2, 6),
-              xValueMapper: (_Point value, _) => value.month,
-              yValueMapper: (_Point value, _) => value.amount)
-        ]);
-  }
-=======
         body: ListView(children: [
           Expanded(child: _build()),
           Row(children: [
@@ -197,12 +124,5 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
->>>>>>> ff490ce19c7adef20cce92de888be9d95df19074
 }
 
-class _Point {
-  _Point(this.month, this.amount);
-
-  final String month;
-  final num amount;
-}
