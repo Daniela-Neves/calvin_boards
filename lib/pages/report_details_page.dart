@@ -70,10 +70,10 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
       default:
         reportWidget = const Text("Nenhum relatório especificado.");
     }
-    ScreenshotController _screenshotController = ScreenshotController();
+    ScreenshotController screenshotController = ScreenshotController();
 
     return Screenshot(
-        controller: _screenshotController,
+        controller: screenshotController,
         child: Scaffold(
           appBar: AppBar(
             leading: IconButton(
@@ -85,7 +85,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
             actions: [
               IconButton(
                   onPressed: () {
-                    takePicture(_screenshotController);
+                    takePicture(screenshotController);
                   },
                   icon: const Icon(Icons.share))
             ],

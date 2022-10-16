@@ -12,6 +12,10 @@ class SignUpProvider extends ChangeNotifier {
 
   String getNome() => signUp!.nome;
 
+  String getPrimeiroNome() {
+    return signUp!.nome.substring(0, signUp!.nome.indexOf(' '));
+  }
+
   void setNome(String nome) {
     signUp!.nome = nome;
     notifyListeners();

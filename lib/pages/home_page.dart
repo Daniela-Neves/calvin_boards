@@ -55,18 +55,21 @@ class _HomePageState extends State<HomePage> {
             value: Provider.of<SignUpProvider>(context)),
         body: ListView(
           children: [
-            const Center(
+            Center(
                 child: Padding(
-              padding: EdgeInsets.only(top: 30, bottom: 20),
-              child: Text("Seja bem vindo de volta!",
-                  style: TextStyle(fontSize: 18)),
+              padding: const EdgeInsets.only(top: 30, bottom: 20),
+              child: Consumer(
+                builder: (context, value, child) => Text(
+                    "Seja bem vindo de volta, ${context.watch<SignUpProvider>().getPrimeiroNome()}!",
+                    style: const TextStyle(fontSize: 18)),
+              ),
             )),
             const Center(
                 child: Padding(
-                  padding: EdgeInsets.only(top: 40, bottom: 30),
-                  child: Text("Comercializção de safras 2021/2022",
-                      style: TextStyle(fontSize: 18)),
-                )),
+              padding: EdgeInsets.only(top: 40, bottom: 30),
+              child: Text("Comercializção de safras 2021/2022",
+                  style: TextStyle(fontSize: 18)),
+            )),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Row(
