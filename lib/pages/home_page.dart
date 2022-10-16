@@ -9,6 +9,8 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:badges/badges.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
+import '../models/sign_up.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -17,9 +19,20 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late String nome;
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    SignUpProvider? signUpProvider =
+    Provider.of<SignUpProvider>(context, listen: false);
+    SignUp signUp = signUpProvider.getUsuario()!;
+    nome = signUp.nome.toString();
   }
 
   List<_Point> soyExports2021 = [
@@ -68,6 +81,7 @@ class _HomePageState extends State<HomePage> {
         drawer: ChangeNotifierProvider<SignUpProvider>.value(
             builder: (context, child) => DefaultDrawer(),
             value: Provider.of<SignUpProvider>(context)),
+<<<<<<< HEAD
         body: Column(children: [
           Expanded(child: _buildChart()),
         ]));
@@ -113,6 +127,77 @@ class _HomePageState extends State<HomePage> {
               yValueMapper: (_Point value, _) => value.amount)
         ]);
   }
+=======
+        body: ListView(children: [
+          Expanded(child: _build()),
+          Row(children: [
+            Expanded(child: _buildChart1()),
+            Expanded(child: _buildChart2()),
+            Expanded(child: _buildChart3())
+          ])
+        ]));
+  }
+
+  Widget _build() {
+    return Container(
+      alignment: Alignment.topCenter,
+      padding: const EdgeInsets.all(40),
+      child: const Text(
+        "Seja bem vindo de volta!",
+        style: TextStyle(
+          color: Color(0xFF041E42),
+          fontSize: 18,
+        ),
+        textAlign: TextAlign.center,
+      ),
+    );
+  }
+
+  Widget _buildChart1() {
+    return Container(
+      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.all(30),
+      child: CircularPercentIndicator(
+        footer: const Text('Tal coisa'),
+        radius: 45.0,
+        lineWidth: 4.0,
+        percent: 0.10,
+        center: const Text("10%"),
+        progressColor: Colors.red,
+      ),
+    );
+  }
+
+  Widget _buildChart2() {
+    return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(30),
+      child: CircularPercentIndicator(
+        footer: const Text('Soja 2021/2022'),
+        radius: 45.0,
+        lineWidth: 4.0,
+        percent: 0.80,
+        center: const Text("79,20%"),
+        progressColor: Colors.blue,
+      ),
+    );
+  }
+
+  Widget _buildChart3() {
+    return Container(
+      alignment: Alignment.centerRight,
+      padding: const EdgeInsets.all(30),
+      child: CircularPercentIndicator(
+        footer: const Text('Tal coisa'),
+        radius: 45.0,
+        lineWidth: 4.0,
+        percent: 0.50,
+        center: const Text("50%"),
+        progressColor: Colors.yellow,
+      ),
+    );
+  }
+>>>>>>> ff490ce19c7adef20cce92de888be9d95df19074
 }
 
 class _Point {
