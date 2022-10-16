@@ -207,67 +207,71 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
 
   Widget _buildEquipReport3() {
     final repo = EquipmentRepository();
-    return Column(children: [
+    return ListView(children: [
       FutureBuilder(
           future: repo.getData(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
               return const CircularProgressIndicator();
             }
-            return AspectRatio(
-              aspectRatio: 1.5,
-              child: SfCartesianChart(
-                  margin: const EdgeInsets.only(
-                      top: 60, left: 40, right: 40, bottom: 100),
-                  primaryYAxis: NumericAxis(
-                      title: AxisTitle(text: "Produzidos"),
-                      numberFormat: NumberFormat.compact()),
-                  primaryXAxis: CategoryAxis(),
-                  axes: [
-                    NumericAxis(
-                        title: AxisTitle(text: "Carros"),
-                        name: "car",
-                        numberFormat: NumberFormat.compact(),
-                        opposedPosition: true),
-                  ],
-                  title:
-                      ChartTitle(text: 'Produção de caminhões e carros mensal'),
-                  legend: Legend(
-                      isVisible: true,
-                      title: LegendTitle(
-                          alignment: ChartAlignment.center,
-                          text: "Fonte: ANFAVEA")),
-                  tooltipBehavior: TooltipBehavior(enable: false),
-                  series: <ChartSeries<EquipmentRow, String>>[
-                    LineSeries<EquipmentRow, String>(
-                        color: Colors.blue,
-                        markerSettings: const MarkerSettings(isVisible: false),
-                        name: "Produção",
-                        dataSource: snapshot.data as List<EquipmentRow>,
-                        xValueMapper: (EquipmentRow value, _) =>
-                            value.yearMonth,
-                        yValueMapper: (EquipmentRow value, _) =>
-                            value.truckProduction),
-                    LineSeries<EquipmentRow, String>(
-                        color: Colors.green,
-                        markerSettings: const MarkerSettings(isVisible: false),
-                        name: "Carros",
-                        yAxisName: "car",
-                        dataSource: snapshot.data as List<EquipmentRow>,
-                        xValueMapper: (EquipmentRow value, _) =>
-                            value.yearMonth,
-                        yValueMapper: (EquipmentRow value, _) =>
-                            value.carProduction),
-                  ]),
-            );
+            return SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 500,
+                child: SfCartesianChart(
+                    margin: const EdgeInsets.only(
+                        top: 60, left: 40, right: 40, bottom: 100),
+                    primaryYAxis: NumericAxis(
+                        title: AxisTitle(text: "Produzidos"),
+                        numberFormat: NumberFormat.compact()),
+                    primaryXAxis: CategoryAxis(),
+                    axes: [
+                      NumericAxis(
+                          title: AxisTitle(text: "Carros"),
+                          name: "car",
+                          numberFormat: NumberFormat.compact(),
+                          opposedPosition: true),
+                    ],
+                    title: ChartTitle(
+                        text: 'Produção de caminhões e carros mensal'),
+                    legend: Legend(
+                        isVisible: true,
+                        title: LegendTitle(
+                            alignment: ChartAlignment.center,
+                            text: "Fonte: ANFAVEA")),
+                    tooltipBehavior: TooltipBehavior(enable: false),
+                    series: <ChartSeries<EquipmentRow, String>>[
+                      LineSeries<EquipmentRow, String>(
+                          color: Colors.blue,
+                          markerSettings:
+                              const MarkerSettings(isVisible: false),
+                          name: "Produção",
+                          dataSource: snapshot.data as List<EquipmentRow>,
+                          xValueMapper: (EquipmentRow value, _) =>
+                              value.yearMonth,
+                          yValueMapper: (EquipmentRow value, _) =>
+                              value.truckProduction),
+                      LineSeries<EquipmentRow, String>(
+                          color: Colors.green,
+                          markerSettings:
+                              const MarkerSettings(isVisible: false),
+                          name: "Carros",
+                          yAxisName: "car",
+                          dataSource: snapshot.data as List<EquipmentRow>,
+                          xValueMapper: (EquipmentRow value, _) =>
+                              value.yearMonth,
+                          yValueMapper: (EquipmentRow value, _) =>
+                              value.carProduction),
+                    ]));
+
+            ;
           }),
-      const Padding(
-        padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
-        child: Text(
-            "A produção da cana-de-açúcar no Paraná vem caindo nos últimos 5 "
-            "anos. Uma regressão polinomial, com 93% de confiança, mostra que "
-            "em um ano e meio, a produção será a metade em relação a 2017."),
-      )
+      // const Padding(
+      //   padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+      //   child: Text(
+      //       "A produção da cana-de-açúcar no Paraná vem caindo nos últimos 5 "
+      //       "anos. Uma regressão polinomial, com 93% de confiança, mostra que "
+      //       "em um ano e meio, a produção será a metade em relação a 2017."),
+      // )
     ]);
   }
 }
