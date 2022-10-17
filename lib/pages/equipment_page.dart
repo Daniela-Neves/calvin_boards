@@ -67,11 +67,11 @@ class _EquipmentPageState extends State<EquipmentPage> {
     {
       "title": "Produção de carros é maior que período pré-pandemia; "
           "recuperação é melhor que a dos carros",
-      "number": 3,
+      "number": 4,
     },
     {
       "title": "Diferença entre caminhões produzidos e licenciados se acentua",
-      "number": 4
+      "number": 5
     },
   ];
 

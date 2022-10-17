@@ -62,10 +62,13 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
         reportWidget = _buildAgroReport2();
         break;
       case 3:
-        reportWidget = _buildEquipReport3();
+        reportWidget = _buildAgroReport3();
         break;
       case 4:
         reportWidget = _buildEquipReport4();
+        break;
+      case 5:
+        reportWidget = _buildEquipReport5();
         break;
       default:
         reportWidget = const Text("Nenhum relatório especificado.");
@@ -166,7 +169,7 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
           future: repo.getData("Cana", "Paraná"),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return const CircularProgressIndicator();
+              return _progressIndicatorSquare();
             }
             return Expanded(
               child: SfCartesianChart(
@@ -236,14 +239,152 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
     ]);
   }
 
-  Widget _buildEquipReport3() {
+  Widget _buildAgroReport3() {
+    final repo = AgricultureRepository();
+    return ListView(children: [
+      FutureBuilder(
+          future: repo.getDataWithWeather("São Paulo"),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return _progressIndicatorSquare();
+            }
+            return SizedBox(
+              width:
+                  (window.physicalSize.shortestSide / window.devicePixelRatio),
+              height: 1 *
+                  (window.physicalSize.longestSide / window.devicePixelRatio),
+              child: SfCartesianChart(
+                  margin: const EdgeInsets.only(
+                      top: 10, left: 10, right: 10, bottom: 25),
+                  primaryYAxis: NumericAxis(
+                      title: AxisTitle(text: "Toneladas"),
+                      numberFormat: NumberFormat.compact()),
+                  primaryXAxis: CategoryAxis(),
+                  axes: [
+                    NumericAxis(
+                        title: AxisTitle(text: "Precipitação (mm)"),
+                        name: "precipitation",
+                        numberFormat: NumberFormat.compact(),
+                        opposedPosition: true),
+                  ],
+                  title: ChartTitle(
+                      text: 'Cana produzida e precipitação total mensal - SP'),
+                  legend: Legend(
+                      isVisible: true,
+                      title: LegendTitle(
+                          alignment: ChartAlignment.center,
+                          text: "Fonte: IBGE/INPE")),
+                  tooltipBehavior: TooltipBehavior(enable: true),
+                  series: <ChartSeries<AgricultureWeatherRow, String>>[
+                    LineSeries<AgricultureWeatherRow, String>(
+                        color: Colors.blue,
+                        markerSettings: const MarkerSettings(isVisible: false),
+                        name: "Produção",
+                        dataSource:
+                            snapshot.data as List<AgricultureWeatherRow>,
+                        xValueMapper: (AgricultureWeatherRow value, int idx) =>
+                            value.yearMonth,
+                        yValueMapper: (AgricultureWeatherRow value, _) =>
+                            value.cropYield),
+                    LineSeries<AgricultureWeatherRow, String>(
+                        color: Colors.green,
+                        markerSettings: const MarkerSettings(isVisible: false),
+                        name: "Precipitação",
+                        yAxisName: "precipitation",
+                        dataSource:
+                            snapshot.data as List<AgricultureWeatherRow>,
+                        xValueMapper: (AgricultureWeatherRow value, _) =>
+                            value.yearMonth,
+                        yValueMapper: (AgricultureWeatherRow value, _) =>
+                            value.precipitation),
+                  ]),
+            );
+          }),
+      const Padding(
+        padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+        child: Text(
+            "O nível de precipitação mensal no estado de São Paulo vem caindo "
+            "de forma significativa nos últimos anos, fato que está "
+            "correlacionado com a queda na produção. A breve recuperação da "
+            "produção entre janeiro e junho desse ano não se sustentou."),
+      ),
+      FutureBuilder(
+          future: repo.getDataWithWeather('Goiás'),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return _progressIndicatorSquare();
+            }
+            return SizedBox(
+              width:
+                  (window.physicalSize.shortestSide / window.devicePixelRatio),
+              height:
+                  (window.physicalSize.longestSide / window.devicePixelRatio),
+              child: SfCartesianChart(
+                  margin: const EdgeInsets.only(
+                      top: 5, left: 10, right: 10, bottom: 20),
+                  primaryYAxis: NumericAxis(
+                      title: AxisTitle(text: "Toneladas"),
+                      numberFormat: NumberFormat.compact()),
+                  primaryXAxis: CategoryAxis(),
+                  axes: [
+                    NumericAxis(
+                        title: AxisTitle(text: "Precipitação (mm)"),
+                        name: "precipitation",
+                        numberFormat: NumberFormat.compact(),
+                        opposedPosition: true),
+                  ],
+                  title: ChartTitle(
+                      text: 'Cana produzida e precipitação total mensal - GO'),
+                  legend: Legend(
+                      isVisible: true,
+                      title: LegendTitle(
+                          alignment: ChartAlignment.center,
+                          text: "Fonte: IBGE/INPE")),
+                  tooltipBehavior: TooltipBehavior(enable: true),
+                  series: <ChartSeries<AgricultureWeatherRow, String>>[
+                    LineSeries<AgricultureWeatherRow, String>(
+                        color: Colors.orange,
+                        markerSettings: const MarkerSettings(isVisible: false),
+                        name: "Produção",
+                        dataSource:
+                            snapshot.data as List<AgricultureWeatherRow>,
+                        xValueMapper: (AgricultureWeatherRow value, int idx) =>
+                            value.yearMonth,
+                        yValueMapper: (AgricultureWeatherRow value, _) =>
+                            value.cropYield),
+                    LineSeries<AgricultureWeatherRow, String>(
+                        color: Colors.purple,
+                        markerSettings: const MarkerSettings(isVisible: false),
+                        name: "Precipitação",
+                        yAxisName: "precipitation",
+                        dataSource:
+                            snapshot.data as List<AgricultureWeatherRow>,
+                        xValueMapper: (AgricultureWeatherRow value, _) =>
+                            value.yearMonth,
+                        yValueMapper: (AgricultureWeatherRow value, _) =>
+                            value.precipitation),
+                  ]),
+            );
+          }),
+      const Padding(
+        padding: EdgeInsets.only(left: 8, right: 8, bottom: 8),
+        child:
+            Text("O fenômeno da seca também afetou Goiás, porém, a produção lá "
+                "cresceu nesse período, o que pode mostrar o potencial da cana "
+                "com a irrigação adequada em tempos de seca, já que a área "
+                "plantada não aumentou."),
+      ),
+    ]);
+  }
+
+  Widget _buildEquipReport4() {
     final repo = EquipmentRepository();
     return ListView(children: [
       FutureBuilder(
           future: repo.getData(),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              return const CircularProgressIndicator();
+              return _progressIndicatorSquare();
             }
             return SizedBox(
                 width: (window.physicalSize.shortestSide /
@@ -311,8 +452,8 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
         child: Text(
             " A produção de caminhões está se recuperando bem dos impactos da "
             "pandemia, atingindo até níveis superiores a antes do fenômeno. "
-            "Essa recuperação está melhor que o setor de carros, que ainda não"
-            " reestabeleceu os níveis de produção."),
+            "Essa recuperação está melhor que o setor de carros, que ainda não "
+            "reestabeleceu os níveis de produção."),
       )
     ]);
   }
@@ -324,14 +465,14 @@ class _ReportDetailsPageState extends State<ReportDetailsPage> {
   }
 }
 
-Widget _buildEquipReport4() {
+Widget _buildEquipReport5() {
   final repo = EquipmentRepository();
   return ListView(children: [
     FutureBuilder(
         future: repo.getData(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
-            return const CircularProgressIndicator();
+            return _progressIndicatorSquare();
           }
           return SizedBox(
               width:
@@ -340,7 +481,7 @@ Widget _buildEquipReport4() {
                   (window.physicalSize.longestSide / window.devicePixelRatio),
               child: SfCartesianChart(
                   margin: const EdgeInsets.only(
-                      top: 15, left: 10, right: 10, bottom: 10),
+                      top: 10, left: 10, right: 10, bottom: 10),
                   primaryYAxis: NumericAxis(
                       title: AxisTitle(text: "Produzidos/licenciados"),
                       numberFormat: NumberFormat.compact()),
@@ -394,6 +535,11 @@ Widget _buildEquipReport4() {
           "demanda."),
     )
   ]);
+}
+
+Widget _progressIndicatorSquare() {
+  return const SizedBox(
+      height: 100, width: 100, child: CircularProgressIndicator());
 }
 
 class Point {

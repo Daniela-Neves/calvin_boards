@@ -58,9 +58,9 @@ class _HomePageState extends State<HomePage> {
             Center(
                 child: Padding(
               padding: const EdgeInsets.only(top: 30, bottom: 20),
-              child: Consumer(
-                builder: (context, value, child) => Text(
-                    "Seja bem vindo de volta, ${context.watch<SignUpProvider>().getPrimeiroNome()}!",
+              child: Consumer<SignUpProvider>(
+                builder: (context, signUp, child) => Text(
+                    "Seja bem vindo de volta, ${signUp.getPrimeiroNome()}!",
                     style: const TextStyle(fontSize: 18)),
               ),
             )),

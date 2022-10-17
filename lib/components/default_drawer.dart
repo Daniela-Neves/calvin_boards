@@ -25,11 +25,11 @@ class DefaultDrawer extends Drawer {
     return Drawer(
       child: Column(
         children: <Widget>[
-          UserAccountsDrawerHeader(
-              accountName:
-                  Text(context.watch<SignUpProvider>().getUsuario()!.nome),
-              accountEmail:
-                  Text(context.watch<SignUpProvider>().getUsuario()!.email)),
+          Consumer<SignUpProvider>(
+              builder: (BuildContext context, signUp, child) =>
+                  UserAccountsDrawerHeader(
+                      accountName: Text(signUp.getNome()),
+                      accountEmail: Text(signUp.getEmail()))),
           ListTile(
             trailing: const Icon(Icons.arrow_forward_ios),
             leading: const Icon(Icons.home),

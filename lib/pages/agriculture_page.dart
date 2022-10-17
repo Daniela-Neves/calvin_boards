@@ -50,7 +50,10 @@ class _AgriculturePageState extends State<AgriculturePage> {
       "title": "Produção de cana-de-açúcar tende a desaparecer no Paraná",
       "number": 2
     },
-    {"title": "Soja não oscila conforme períodos de seca", "number": 3},
+    {
+      "title": "Chuvas em SP despencam e comprometem produtividade da cana",
+      "number": 3
+    },
   ];
 
   @override
