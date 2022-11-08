@@ -4,8 +4,6 @@ import 'package:eletroCar/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../pages/control.dart';
-
 class DefaultDrawer extends Drawer {
   DefaultDrawer({super.key});
 
@@ -60,7 +58,7 @@ class DefaultDrawer extends Drawer {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const ControlPage(),
+                  builder: (context) => Container(),
                 ),
               );
             },
