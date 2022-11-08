@@ -1,4 +1,4 @@
-import 'package:calvin_boards/models/sign_up.dart';
+import 'package:eletroCar/models/sign_up.dart';
 import 'package:flutter/material.dart';
 import '../database/database_manager.dart';
 

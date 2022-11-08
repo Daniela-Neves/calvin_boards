@@ -19,6 +19,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final _senhaController = TextEditingController();
   final _celularController = TextEditingController();
   final _dataController = TextEditingController();
+  final _nomeCarroController = TextEditingController();
+
 
   final _formKey = GlobalKey<FormState>();
 
@@ -32,10 +34,10 @@ class _SignUpPageState extends State<SignUpPage> {
             padding: const EdgeInsets.all(30.0),
             child: Column(
               children: [
-                const SizedBox(height: 50),
-                _buildScaniaId(),
-                const SizedBox(height: 20),
+                const SizedBox(height: 80),
                 _buildNome(),
+                const SizedBox(height: 20),
+                _buildNomeCarro(),
                 const SizedBox(height: 20),
                 _buildEmail(),
                 const SizedBox(height: 20),
@@ -45,7 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(height: 20),
                 _buildCelular(),
                 const SizedBox(height: 20),
-                _buildButton()
+                _buildButton(),
               ],
             ),
           ),
@@ -92,6 +94,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       DateFormat('dd/MM/yyyy').parse(_dataController.text);
                   final email = _emailController.text;
                   final senha = _senhaController.text;
+                  final nomeCarro = _nomeCarroController.text;
 
                   final signUp = SignUp(
                       id: int.parse(_scaniaIdController.text),
@@ -99,7 +102,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       nome: nome,
                       celular: celular,
                       data: data,
-                      senha: senha);
+                      senha: senha,
+                      nomeCarro: nomeCarro);
 
                   try {
                     await _signUpRepository.cadastrar(signUp);
@@ -116,30 +120,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 },
               ),
             )));
-  }
-
-  TextFormField _buildScaniaId() {
-    return TextFormField(
-      keyboardType: TextInputType.number,
-      controller: _scaniaIdController,
-      decoration: const InputDecoration(
-        labelText: 'ScaniaID',
-        labelStyle: TextStyle(
-          color: Colors.black38,
-          fontWeight: FontWeight.w400,
-          fontSize: 20,
-        ),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Informe sua ID Scania';
-        }
-        if (value.length != 8) {
-          return 'ID Scania tem 8 caracteres';
-        }
-        return null;
-      },
-    );
   }
 
   TextFormField _buildNome() {
@@ -159,6 +139,29 @@ class _SignUpPageState extends State<SignUpPage> {
         }
         if (value.length < 2 || value.length > 80) {
           return 'O nome deve ter entre 2 e 80 caracteres';
+        }
+        return null;
+      },
+    );
+  }
+
+  TextFormField _buildNomeCarro() {
+    return TextFormField(
+      controller: _nomeCarroController,
+      decoration: const InputDecoration(
+        labelText: 'Nome do Carro',
+        labelStyle: TextStyle(
+          color: Colors.black38,
+          fontWeight: FontWeight.w400,
+          fontSize: 20,
+        ),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Informe o nome do seu carro';
+        }
+        if (value.length < 2 || value.length > 80) {
+          return 'O nome do carro deve ter entre 2 e 80 caracteres';
         }
         return null;
       },

@@ -7,6 +7,7 @@ class SignUp extends ChangeNotifier {
   DateTime data;
   String email;
   String senha;
+  String nomeCarro;
 
   SignUp({
     this.id,
@@ -15,6 +16,7 @@ class SignUp extends ChangeNotifier {
     required this.email,
     required this.data,
     required this.senha,
+    required this.nomeCarro,
   });
 
   factory SignUp.fromMap(Map<String, dynamic> map) {
@@ -24,6 +26,7 @@ class SignUp extends ChangeNotifier {
         celular: map['celular'],
         email: map['email'],
         data: DateTime.fromMillisecondsSinceEpoch(map['data']),
-        senha: map['senha']);
+        senha: map['senha'],
+        nomeCarro: map['nomeCarro']);
   }
 }

@@ -1,6 +1,6 @@
 {
-    "name": "calvin_boards",
-    "short_name": "calvin_boards",
+    "name": "eletroCar",
+    "short_name": "eletroCar",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

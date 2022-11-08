@@ -1,4 +1,4 @@
-package com.calvin_boards
+package com.eletroCar
 
 import io.flutter.embedding.android.FlutterActivity
 

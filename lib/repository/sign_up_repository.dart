@@ -11,7 +11,8 @@ class SignUpRepository {
             cadastros.email, 
             cadastros.data,
             cadastros.senha,
-            cadastros.celular
+            cadastros.celular,
+            cadastros.nomeCarro
           FROM cadastros
 ''');
     return rows
@@ -23,6 +24,7 @@ class SignUpRepository {
             data: DateTime.fromMillisecondsSinceEpoch(row['data']),
             email: row['email'],
             senha: row['senha'],
+            nomeCarro: row['nomeCarro'],
           ),
         )
         .toList();
@@ -38,6 +40,7 @@ class SignUpRepository {
         "data": signup.data.millisecondsSinceEpoch,
         "email": signup.email,
         "senha": signup.senha,
+        "nomeCarro": signup.nomeCarro,
       });
     } catch (e) {
       rethrow;
@@ -61,6 +64,7 @@ class SignUpRepository {
           "data": signup.data.millisecondsSinceEpoch,
           "email": signup.email,
           "senha": signup.senha,
+          "nomeCarro": signup.nomeCarro,
         },
         where: 'id = ?',
         whereArgs: [signup.id]);

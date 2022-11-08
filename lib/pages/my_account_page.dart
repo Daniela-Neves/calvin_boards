@@ -1,4 +1,4 @@
-import 'package:calvin_boards/providers/signup_provider.dart';
+import 'package:eletroCar/providers/signup_provider.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:provider/provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -21,7 +21,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
   final _senhaController = TextEditingController();
   final _celularController = TextEditingController();
   final _dataController = TextEditingController();
-  late String scaniaId;
+  final _nomeCarroController = TextEditingController();
+
+  late String userId;
 
   @override
   void initState() {
@@ -41,8 +43,10 @@ class _MyAccountPageState extends State<MyAccountPage> {
     _dataController.text = DateFormat('dd/MM/yyyy').format(signUp.data);
     _emailController.text = signUp.email;
     _senhaController.text = signUp.senha;
+    _nomeCarroController.text = signUp.nomeCarro;
 
-    scaniaId = signUp.id.toString();
+
+    userId = signUp.id.toString();
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -58,9 +62,9 @@ class _MyAccountPageState extends State<MyAccountPage> {
             child: Column(
               children: [
                 const SizedBox(height: 80),
-                Text("Scania ID: $scaniaId"),
-                const SizedBox(height: 20),
                 _buildNome(),
+                const SizedBox(height: 20),
+                _buildNomeCarro(),
                 const SizedBox(height: 20),
                 _buildEmail(),
                 const SizedBox(height: 20),
@@ -70,7 +74,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                 const SizedBox(height: 20),
                 _buildCelular(),
                 const SizedBox(height: 20),
-                _buildButton()
+                _buildButton(),
               ],
             ),
           ),
@@ -117,14 +121,16 @@ class _MyAccountPageState extends State<MyAccountPage> {
                       DateFormat('dd/MM/yyyy').parse(_dataController.text);
                   final email = _emailController.text;
                   final senha = _senhaController.text;
+                  final nomeCarro = _nomeCarroController.text;
 
                   final signUp = SignUp(
-                      id: int.parse(scaniaId),
+                      id: int.parse(userId),
                       email: email,
                       nome: nome,
                       celular: celular,
                       data: data,
-                      senha: senha);
+                      senha: senha,
+                      nomeCarro: nomeCarro);
 
                   try {
                     await _signUpRepository.editar(signUp);
@@ -168,6 +174,29 @@ class _MyAccountPageState extends State<MyAccountPage> {
         }
         if (value.length < 2 || value.length > 80) {
           return 'O nome deve ter entre 2 e 80 caracteres';
+        }
+        return null;
+      },
+    );
+  }
+
+  TextFormField _buildNomeCarro() {
+    return TextFormField(
+      controller: _nomeCarroController,
+      decoration: const InputDecoration(
+        labelText: 'Nome do Carro',
+        labelStyle: TextStyle(
+          color: Colors.black38,
+          fontWeight: FontWeight.w400,
+          fontSize: 20,
+        ),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Informe o nome do seu carro';
+        }
+        if (value.length < 2 || value.length > 80) {
+          return 'O nome do carro deve ter entre 2 e 80 caracteres';
         }
         return null;
       },

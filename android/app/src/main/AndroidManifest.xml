@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.calvin_boards">
+    package="com.eletroCar">
    <application
-        android:label="Calvin Boards"
+        android:label="EletroCar"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

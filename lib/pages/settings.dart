@@ -1,6 +1,6 @@
-import 'package:calvin_boards/pages/login_page.dart';
-import 'package:calvin_boards/pages/my_account_page.dart';
-import 'package:calvin_boards/providers/signup_provider.dart';
+import 'package:eletroCar/pages/login_page.dart';
+import 'package:eletroCar/pages/my_account_page.dart';
+import 'package:eletroCar/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

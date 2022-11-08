@@ -76,7 +76,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         height: 60,
                         alignment: Alignment.centerLeft,
                         decoration: const BoxDecoration(
-                          color: Color(0xFF16417F),
+                          color: Color(0xFFFFCD12),
                           borderRadius: BorderRadius.all(
                             Radius.circular(5),
                           ),

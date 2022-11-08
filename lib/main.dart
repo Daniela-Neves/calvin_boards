@@ -1,10 +1,7 @@
-import 'package:calvin_boards/pages/home_page.dart';
-import 'package:calvin_boards/pages/login_page.dart';
-import 'package:calvin_boards/pages/report_details_page.dart';
-import 'package:calvin_boards/pages/settings.dart';
-import 'package:calvin_boards/pages/signup_page.dart';
-import 'package:calvin_boards/providers/notifications_provider.dart';
-import 'package:calvin_boards/providers/signup_provider.dart';
+import 'package:eletroCar/pages/home_page.dart';
+import 'package:eletroCar/pages/login_page.dart';
+import 'package:eletroCar/pages/signup_page.dart';
+import 'package:eletroCar/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -21,7 +18,6 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => SignUpProvider()),
-        ChangeNotifierProvider(create: (context) => NotificationsProvider())
       ],
       builder: (context, child) => MaterialApp(
         localizationsDelegates: const [
@@ -31,7 +27,7 @@ class MyApp extends StatelessWidget {
         supportedLocales: const [
           Locale('pt'),
         ],
-        title: 'Calvin Boards',
+        title: 'EletroCar',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
             primarySwatch: Colors.indigo,
@@ -41,10 +37,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const LoginPage(),
           '/login': (context) => const LoginPage(),
-          '/signup': (context) => const SignUpPage(),
-          '/home': (context) => const HomePage(),
-          '/settings': (context) => const SettingsPage(),
-          '/report_details': (context) => const ReportDetailsPage()
+          '/signup': (context) => const SignUpPage()
         },
         initialRoute: '/',
       ),

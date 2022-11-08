@@ -1,7 +1,7 @@
-import 'package:calvin_boards/models/sign_up.dart';
-import 'package:calvin_boards/pages/home_page.dart';
-import 'package:calvin_boards/providers/signup_provider.dart';
-import 'package:calvin_boards/repository/sign_up_repository.dart';
+import 'package:eletroCar/models/sign_up.dart';
+import 'package:eletroCar/pages/home_page.dart';
+import 'package:eletroCar/providers/signup_provider.dart';
+import 'package:eletroCar/repository/sign_up_repository.dart';
 import 'package:provider/provider.dart';
 
 import 'reset_password_page.dart';
@@ -39,27 +39,16 @@ class _LoginPageState extends State<LoginPage> {
             Column(
               children: const [
                 Icon(
-                  Icons.insert_chart_outlined_outlined,
-                  color: Color(0xFF041E42),
+                  Icons.flash_on,
+                  color: Color(0xFFFFCD12),
                   size: 100,
                 ),
-                Text("Calvin Boards",
+                Text("EletroCar",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30))
               ],
             ),
             const SizedBox(
-              height: 20,
-            ),
-            const SizedBox(
               height: 40,
-              child: Text(
-                "Bem vindo de volta!",
-                style: TextStyle(
-                  color: Color(0xFF041E42),
-                  fontSize: 18,
-                ),
-                textAlign: TextAlign.center,
-              ),
             ),
             Form(
                 key: _formkey,
@@ -75,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
               alignment: Alignment.centerLeft,
               child: TextButton(
                 child: const Text(
-                  "Esqueceu a senha?",
+                  "Esqueceu sua senha?",
                   style: TextStyle(
                     color: Colors.black38,
                     fontWeight: FontWeight.w400,
@@ -100,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
               height: 50,
               alignment: Alignment.centerLeft,
               decoration: const BoxDecoration(
-                color: Color(0xFF16417F),
+                color: Color(0xFFFFCD12),
                 borderRadius: BorderRadius.all(
                   Radius.circular(5),
                 ),
@@ -131,7 +120,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     if (usuario == null) {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                          content: Text("Erro: id ou senha inválidos"),
+                          content: Text("Erro: email ou senha inválidos"),
                           backgroundColor: Colors.red));
                       _senhaController.text = '';
                       return;
@@ -194,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: const <Widget>[
                       Text(
-                        "Registre-se",
+                        "Cadastre-se",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 17,
@@ -219,17 +208,11 @@ class _LoginPageState extends State<LoginPage> {
       keyboardType: TextInputType.number,
       validator: (value) {
         if (value == null) {
-          return "Digite uma ID.";
+          return "Digite um email.";
         }
-
-        final regex = RegExp(r'^[0-9]+$');
-        if (!regex.hasMatch(value)) {
-          return "ID contém somente números.";
-        }
-        return null;
       },
       decoration: const InputDecoration(
-        labelText: "Scania ID:",
+        labelText: "Email:",
         labelStyle: TextStyle(
           color: Colors.black38,
           fontWeight: FontWeight.w400,

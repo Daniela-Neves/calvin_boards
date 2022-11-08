@@ -19,6 +19,12 @@ class SignUpListItem extends StatelessWidget {
           ),
         ),
         ListTile(
+          title: const Text('Nome do Carro:'),
+          subtitle: Text(
+            signUp.nomeCarro,
+          ),
+        ),
+        ListTile(
           title: const Text('Celular:'),
           subtitle: Text(signUp.celular),
         ),

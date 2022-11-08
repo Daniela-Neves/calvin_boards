@@ -1,10 +1,10 @@
-import 'package:calvin_boards/pages/agriculture_page.dart';
-import 'package:calvin_boards/pages/equipment_page.dart';
-import 'package:calvin_boards/pages/home_page.dart';
-import 'package:calvin_boards/pages/settings.dart';
-import 'package:calvin_boards/providers/signup_provider.dart';
+import 'package:eletroCar/pages/home_page.dart';
+import 'package:eletroCar/pages/settings.dart';
+import 'package:eletroCar/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../pages/control.dart';
 
 class DefaultDrawer extends Drawer {
   DefaultDrawer({super.key});
@@ -14,10 +14,6 @@ class DefaultDrawer extends Drawer {
         nome: "Home",
         icone: Icons.home,
         builder: (context) => const HomePage()),
-    Page(
-        nome: "Agricultura",
-        icone: Icons.emoji_nature,
-        builder: (context) => const AgriculturePage())
   ];
 
   @override
@@ -32,8 +28,8 @@ class DefaultDrawer extends Drawer {
                       accountEmail: Text(signUp.getEmail()))),
           ListTile(
             trailing: const Icon(Icons.arrow_forward_ios),
-            leading: const Icon(Icons.home),
-            title: const Text("Home"),
+            leading: const Icon(Icons.map_sharp),
+            title: const Text("Mapa"),
             onTap: () {
               Navigator.push(
                 context,
@@ -43,23 +39,10 @@ class DefaultDrawer extends Drawer {
               );
             },
           ),
-          ListTile(
-            trailing: const Icon(Icons.arrow_forward_ios),
-            leading: const Icon(Icons.emoji_nature),
-            title: const Text("Agricultura"),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const AgriculturePage(),
-                ),
-              );
-            },
-          ),
-          ListTile(
+          /*ListTile(
             trailing: const Icon(Icons.arrow_forward_ios),
             leading: const Icon(Icons.agriculture),
-            title: const Text("Equipamentos"),
+            title: const Text("Pontos de Recarga"),
             onTap: () {
               Navigator.push(
                 context,
@@ -68,7 +51,33 @@ class DefaultDrawer extends Drawer {
                 ),
               );
             },
+          ),*/
+          ListTile(
+            trailing: const Icon(Icons.arrow_forward_ios),
+            leading: const Icon(Icons.control_camera_sharp),
+            title: const Text("Controle"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ControlPage(),
+                ),
+              );
+            },
           ),
+          /*ListTile(
+            trailing: const Icon(Icons.arrow_forward_ios),
+            leading: const Icon(Icons.agriculture),
+            title: const Text("Dicas"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const EquipmentPage(),
+                ),
+              );
+            },
+          ),*/
           ListTile(
             trailing: const Icon(Icons.arrow_forward_ios),
             leading: const Icon(Icons.miscellaneous_services),
