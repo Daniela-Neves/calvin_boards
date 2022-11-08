@@ -12,35 +12,26 @@ class DatabaseManager {
   }
 
   String get _cadastros => '''
-    CREATE TABLE IF NOT EXISTS cadastros (
-      id INTEGER PRIMARY KEY,
-      nome TEXT NOT NULL,
-      email TEXT UNIQUE NOT NULL,
-      senha TEXT NOT NULL, 
-      data INTEGER NOT NULL,
-      celular TEXT UNIQUE NOT NULL,
-      nomeCarro TEXT NOT NULL
+    CREATE TABLE IF NOT EXISTS user (
+      user_id INTEGER PRIMARY KEY,
+      name TEXT NOT NULL,
+      email TEXT NOT NULL,
+      password TEXT NOT NULL, 
+      phone_number TEXT NOT NULL,
     )
   ''';
 
   String get _createCarsTable => '''
-    CREATE TABLE IF NOT EXISTS carros (
-      id INTEGER PRIMARY KEY,
-      marca TEXT NOT NULL,
-      modelo TEXT NOT NULL,
-      placa TEXT NULL,
-      ano INTEGER,
-      is_hibrido NUMERIC(1,0) NOT NULL,
-      carga_eletrica INTEGER NULL,
-      nivel_combustivel INTEGER NULL,
-      quilometragem INTEGER NULL
+    CREATE TABLE IF NOT EXISTS car (
+      car_id INTEGER PRIMARY KEY,
+      manufacturer TEXT NOT NULL,
+      model TEXT NOT NULL,
+      plate TEXT NULL,
+      yer INTEGER,
+      is_hybrid NUMERIC(1,0) NOT NULL,
+      charge_percentage INTEGER NULL,
+      fuel_level INTEGER NULL,
+      mileage INTEGER NULL
     )
   ''';
-
-  String get _createUserCarsTable => '''
-    CREATE TABLE IF NOT EXISTS carros_usuario (
-      id_carro INTEGER NOT NULL,
-      id_
-    )
-''';
 }

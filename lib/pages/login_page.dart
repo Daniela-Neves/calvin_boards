@@ -1,6 +1,7 @@
 import 'package:eletroCar/models/sign_up.dart';
 import 'package:eletroCar/pages/home_page.dart';
 import 'package:eletroCar/providers/signup_provider.dart';
+import 'package:eletroCar/providers/theme_provider.dart';
 import 'package:eletroCar/repository/sign_up_repository.dart';
 import 'package:provider/provider.dart';
 
@@ -31,11 +32,24 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: Container(
         padding: const EdgeInsets.only(top: 60, left: 40, right: 40),
-        color: Colors.white,
+        //color: Theme.of(context).backgroundColor,
         child: ListView(
           children: <Widget>[
+            Container(
+                height: 20,
+                color: Theme.of(context).appBarTheme.backgroundColor,
+                child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+                  _buildThemeSwitcherIcon(context),
+                  Switch(
+                    value: context.watch<ThemeProvider>().isDark(),
+                    onChanged: (value) {
+                      context.read<ThemeProvider>().toggleDark();
+                    },
+                  )
+                ])),
             Column(
               children: const [
                 Icon(
@@ -66,7 +80,6 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text(
                   "Esqueceu sua senha?",
                   style: TextStyle(
-                    color: Colors.black38,
                     fontWeight: FontWeight.w400,
                     fontSize: 17,
                   ),
@@ -214,13 +227,19 @@ class _LoginPageState extends State<LoginPage> {
       decoration: const InputDecoration(
         labelText: "Email:",
         labelStyle: TextStyle(
-          color: Colors.black38,
           fontWeight: FontWeight.w400,
           fontSize: 20,
         ),
       ),
       style: const TextStyle(fontSize: 20),
     );
+  }
+
+  Icon _buildThemeSwitcherIcon(BuildContext context) {
+    if (context.read<ThemeProvider>().isDark()) {
+      return const Icon(Icons.light_mode);
+    }
+    return const Icon(Icons.dark_mode);
   }
 
   TextFormField _buildPaswordInput() {
@@ -241,7 +260,6 @@ class _LoginPageState extends State<LoginPage> {
       decoration: const InputDecoration(
         labelText: "Senha:",
         labelStyle: TextStyle(
-          color: Colors.black38,
           fontWeight: FontWeight.w400,
           fontSize: 20,
         ),
