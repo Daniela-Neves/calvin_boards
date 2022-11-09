@@ -4,29 +4,22 @@ class SignUp extends ChangeNotifier {
   int? id;
   String nome;
   String celular;
-  DateTime data;
   String email;
   String senha;
-  String nomeCarro;
 
-  SignUp({
-    this.id,
-    required this.nome,
-    required this.celular,
-    required this.email,
-    required this.data,
-    required this.senha,
-    required this.nomeCarro,
-  });
+  SignUp(
+      {this.id,
+      required this.nome,
+      required this.celular,
+      required this.email,
+      required this.senha});
 
   factory SignUp.fromMap(Map<String, dynamic> map) {
     return SignUp(
-        id: map['id'],
-        nome: map['nome'],
-        celular: map['celular'],
+        id: map['user_id'],
+        nome: map['name'],
+        celular: map['phone_number'],
         email: map['email'],
-        data: DateTime.fromMillisecondsSinceEpoch(map['data']),
-        senha: map['senha'],
-        nomeCarro: map['nomeCarro']);
+        senha: map['password']);
   }
 }

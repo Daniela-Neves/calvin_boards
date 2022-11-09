@@ -19,18 +19,8 @@ class SignUpListItem extends StatelessWidget {
           ),
         ),
         ListTile(
-          title: const Text('Nome do Carro:'),
-          subtitle: Text(
-            signUp.nomeCarro,
-          ),
-        ),
-        ListTile(
           title: const Text('Celular:'),
           subtitle: Text(signUp.celular),
-        ),
-        ListTile(
-          title: const Text('Data de Nascimento:'),
-          subtitle: Text(DateFormat('dd/MM/yyyy').format(signUp.data)),
         ),
         ListTile(
           title: const Text('Email:'),

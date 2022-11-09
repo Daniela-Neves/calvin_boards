@@ -9,6 +9,7 @@ class DatabaseManager {
 
   _onCreate(Database db, _) async {
     await db.execute(_cadastros);
+    await db.execute(_createCarsTable);
   }
 
   String get _cadastros => '''
@@ -17,7 +18,7 @@ class DatabaseManager {
       name TEXT NOT NULL,
       email TEXT NOT NULL,
       password TEXT NOT NULL, 
-      phone_number TEXT NOT NULL,
+      phone_number TEXT NOT NULL
     )
   ''';
 

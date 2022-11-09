@@ -6,26 +6,21 @@ class SignUpRepository {
     final db = await DatabaseManager().getDatabase();
     final List<Map<String, dynamic>> rows = await db.rawQuery('''
           SELECT 
-            cadastros.id, 
-            cadastros.nome,
-            cadastros.email, 
-            cadastros.data,
-            cadastros.senha,
-            cadastros.celular,
-            cadastros.nomeCarro
-          FROM cadastros
+            user.id, 
+            user.name,
+            user.email, 
+            user.password,
+            user.phone_number
+          FROM user
 ''');
     return rows
         .map(
           (row) => SignUp(
-            id: row['id'],
-            nome: row['nome'],
-            celular: row['celular'],
-            data: DateTime.fromMillisecondsSinceEpoch(row['data']),
-            email: row['email'],
-            senha: row['senha'],
-            nomeCarro: row['nomeCarro'],
-          ),
+              id: row['user_id'],
+              nome: row['name'],
+              celular: row['phone_number'],
+              email: row['email'],
+              senha: row['password']),
         )
         .toList();
   }
@@ -33,14 +28,12 @@ class SignUpRepository {
   Future<bool> cadastrar(SignUp signup) async {
     final db = await DatabaseManager().getDatabase();
     try {
-      db.insert("cadastros", {
-        "id": signup.id,
-        "nome": signup.nome,
-        "celular": signup.celular,
-        "data": signup.data.millisecondsSinceEpoch,
+      db.insert("user", {
+        "user_id": signup.id,
+        "name": signup.nome,
+        "phone_number": signup.celular,
         "email": signup.email,
-        "senha": signup.senha,
-        "nomeCarro": signup.nomeCarro,
+        "password": signup.senha
       });
     } catch (e) {
       rethrow;
@@ -50,31 +43,28 @@ class SignUpRepository {
 
   Future<void> remover(int id) async {
     final db = await DatabaseManager().getDatabase();
-    await db.delete('cadastros', where: 'id = ?', whereArgs: [id]);
+    await db.delete('user', where: 'user_id = ?', whereArgs: [id]);
   }
 
   Future<int> editar(SignUp signup) async {
     final db = await DatabaseManager().getDatabase();
     return db.update(
-        'cadastros',
+        'user',
         {
-          "id": signup.id,
-          "nome": signup.nome,
-          "celular": signup.celular,
-          "data": signup.data.millisecondsSinceEpoch,
+          "user_id": signup.id,
+          "name": signup.nome,
+          "phone_number": signup.celular,
           "email": signup.email,
-          "senha": signup.senha,
-          "nomeCarro": signup.nomeCarro,
+          "password": signup.senha
         },
-        where: 'id = ?',
+        where: 'user_id = ?',
         whereArgs: [signup.id]);
-
-
   }
-  Future<SignUp?> login(int id, String senha) async {
+
+  Future<SignUp?> login(String email, String senha) async {
     final db = await DatabaseManager().getDatabase();
     List<Map<String, Object?>> cadastros =
-        await db.query('cadastros', where: 'id = ?', whereArgs: [id]);
+        await db.query('user', where: 'email = ?', whereArgs: [email]);
     if (cadastros.isEmpty) {
       return null;
     }

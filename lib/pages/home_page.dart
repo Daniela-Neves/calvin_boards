@@ -2,8 +2,6 @@ import 'package:eletroCar/components/default_drawer.dart';
 import 'package:eletroCar/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:badges/badges.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 
 import '../models/sign_up.dart';
 
@@ -35,6 +33,9 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        floatingActionButton: FloatingActionButton(
+            onPressed: () {}, child: const Icon(Icons.add)),
+        bottomNavigationBar: _buildBottomNavigationBar(),
         appBar: AppBar(title: const Text("Home")),
         drawer: ChangeNotifierProvider<SignUpProvider>.value(
             builder: (context, child) => DefaultDrawer(),
@@ -47,5 +48,14 @@ class _HomePageState extends State<HomePage> {
             )),
           ],
         ));
+  }
+
+  BottomNavigationBar _buildBottomNavigationBar() {
+    return BottomNavigationBar(items: const <BottomNavigationBarItem>[
+      BottomNavigationBarItem(
+          icon: Icon(Icons.directions_car), label: "Veículos"),
+      BottomNavigationBarItem(icon: Icon(Icons.star), label: "Stellantis"),
+      BottomNavigationBarItem(icon: Icon(Icons.people), label: "Sobre nós")
+    ]);
   }
 }

@@ -8,9 +8,10 @@ import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider<ThemeProvider>(
-      create: (_) => ThemeProvider(),
-      builder: (context, child) => const MyApp()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider<SignUpProvider>(create: (_) => SignUpProvider()),
+    ChangeNotifierProvider<ThemeProvider>(create: (_) => ThemeProvider())
+  ], builder: (context, child) => const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

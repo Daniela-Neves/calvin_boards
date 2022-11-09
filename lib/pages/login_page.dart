@@ -17,7 +17,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  late TextEditingController _scaniaIdController;
+  late TextEditingController _emailController;
   late TextEditingController _senhaController;
   final repo = SignUpRepository();
   final _formkey = GlobalKey<FormState>();
@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _scaniaIdController = TextEditingController();
+    _emailController = TextEditingController();
     _senhaController = TextEditingController();
   }
 
@@ -67,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
             Form(
                 key: _formkey,
                 child: Column(children: [
-                  _buildScaniaIdInput(),
+                  _buildEmailInput(),
                   const SizedBox(
                     height: 10,
                   ),
@@ -128,8 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                       return;
                     }
                     SignUp? usuario = await repo.login(
-                        int.parse(_scaniaIdController.text),
-                        _senhaController.text);
+                        _emailController.text, _senhaController.text);
 
                     if (usuario == null) {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -186,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ) as SignUp;
                     setState(() {
-                      _scaniaIdController.text = signUp.id.toString();
+                      _emailController.text = signUp.id.toString();
                     });
                   },
                   style: TextButton.styleFrom(
@@ -214,14 +213,13 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  TextFormField _buildScaniaIdInput() {
+  TextFormField _buildEmailInput() {
     return TextFormField(
       // autofocus: true,
-      controller: _scaniaIdController,
-      keyboardType: TextInputType.number,
+      controller: _emailController,
       validator: (value) {
         if (value == null) {
-          return "Digite um email.";
+          return "Digite seu e-mail";
         }
       },
       decoration: const InputDecoration(

@@ -13,14 +13,10 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _signUpRepository = SignUpRepository();
-  final _scaniaIdController = TextEditingController();
   final _nomeController = TextEditingController();
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
   final _celularController = TextEditingController();
-  final _dataController = TextEditingController();
-  final _nomeCarroController = TextEditingController();
-
 
   final _formKey = GlobalKey<FormState>();
 
@@ -37,13 +33,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(height: 80),
                 _buildNome(),
                 const SizedBox(height: 20),
-                _buildNomeCarro(),
-                const SizedBox(height: 20),
                 _buildEmail(),
                 const SizedBox(height: 20),
                 _buildSenha(),
-                const SizedBox(height: 20),
-                _buildDataNascimento(),
                 const SizedBox(height: 20),
                 _buildCelular(),
                 const SizedBox(height: 20),
@@ -90,20 +82,11 @@ class _SignUpPageState extends State<SignUpPage> {
                   }
                   final nome = _nomeController.text;
                   final celular = _celularController.text;
-                  final data =
-                      DateFormat('dd/MM/yyyy').parse(_dataController.text);
                   final email = _emailController.text;
                   final senha = _senhaController.text;
-                  final nomeCarro = _nomeCarroController.text;
 
                   final signUp = SignUp(
-                      id: int.parse(_scaniaIdController.text),
-                      email: email,
-                      nome: nome,
-                      celular: celular,
-                      data: data,
-                      senha: senha,
-                      nomeCarro: nomeCarro);
+                      email: email, nome: nome, celular: celular, senha: senha);
 
                   try {
                     await _signUpRepository.cadastrar(signUp);
@@ -145,29 +128,6 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  TextFormField _buildNomeCarro() {
-    return TextFormField(
-      controller: _nomeCarroController,
-      decoration: const InputDecoration(
-        labelText: 'Nome do Carro',
-        labelStyle: TextStyle(
-          color: Colors.black38,
-          fontWeight: FontWeight.w400,
-          fontSize: 20,
-        ),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Informe o nome do seu carro';
-        }
-        if (value.length < 2 || value.length > 80) {
-          return 'O nome do carro deve ter entre 2 e 80 caracteres';
-        }
-        return null;
-      },
-    );
-  }
-
   TextFormField _buildCelular() {
     return TextFormField(
       controller: _celularController,
@@ -187,48 +147,6 @@ class _SignUpPageState extends State<SignUpPage> {
           return 'Informe o número do seu celular';
         } else if (!regExp.hasMatch(value)) {
           return "O número do celular só deve conter dígitos";
-        }
-
-        return null;
-      },
-    );
-  }
-
-  TextFormField _buildDataNascimento() {
-    return TextFormField(
-      controller: _dataController,
-      decoration: const InputDecoration(
-        labelText: 'Data de Nascimento',
-        labelStyle: TextStyle(
-          color: Colors.black38,
-          fontWeight: FontWeight.w400,
-          fontSize: 20,
-        ),
-      ),
-      onTap: () async {
-        FocusScope.of(context).requestFocus(FocusNode());
-
-        DateTime? dataSelecionada = await showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(1920),
-            lastDate: DateTime.now(),
-            locale: const Locale("pt", "BR"));
-
-        if (dataSelecionada != null) {
-          _dataController.text =
-              DateFormat('dd/MM/yyyy').format(dataSelecionada);
-        }
-      },
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Informe sua data de nascimento';
-        }
-
-        try {
-          DateFormat('dd/MM/yyyy').parse(value);
-        } on FormatException {
-          return 'Formato de data inválida';
         }
 
         return null;
