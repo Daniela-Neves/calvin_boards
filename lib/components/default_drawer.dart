@@ -1,3 +1,4 @@
+import 'package:eletroCar/pages/electropost_page.dart';
 import 'package:eletroCar/pages/home_page.dart';
 import 'package:eletroCar/pages/settings.dart';
 import 'package:eletroCar/providers/signup_provider.dart';
@@ -25,6 +26,19 @@ class DefaultDrawer extends Drawer {
                 accountName: Text(signUp.getNome()),
                 accountEmail: Text(signUp.getEmail())),
       ),
+          ListTile(
+            trailing: const Icon(Icons.arrow_forward_ios),
+            leading: const Icon(Icons.refresh),
+            title: const Text("Pontos de Recarga"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ElectropostPage(),
+                ),
+              );
+            },
+          ),
       ListTile(
         trailing: const Icon(Icons.arrow_forward_ios),
         leading: const Icon(Icons.map_sharp),
