@@ -12,7 +12,17 @@ class ControlPage extends StatefulWidget {
 }
 
 class _ControlPageState extends State<ControlPage> {
-  bool notificacoes = true;
+  bool portas = true;
+  bool luzes = true;
+  bool ligarFarois = true;
+  bool piscarFarois = true;
+  bool portaMalas = true;
+  bool alarme = true;
+
+  double _vidroDireitaMotorista = 20;
+  double _vidroEsquerdaMotorista = 20;
+  double _vidroDireitaPassageiro = 20;
+  double _vidroEsquerdaPassageiro = 20;
 
   late SignUpProvider signUpProvider;
 
@@ -26,145 +36,163 @@ class _ControlPageState extends State<ControlPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: const Text("Configurações"),
+            title: const Text("Controle"),
             leading: IconButton(
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
                   Navigator.pop(context);
                 })),
         body: ListView(children: [
-          ListTile(
-              title: const Text("Meu Perfil"),
-              trailing: const Icon(Icons.arrow_forward),
-              onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                        ChangeNotifierProvider<SignUpProvider>.value(
-                          value: context.read<SignUpProvider>(),
-                          builder: (context, child) =>
-                          const MyAccountPage(),
-                        )));
-              }),
-          SwitchListTile(
-              activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
-              title: const Text("Notificações"),
-              value: notificacoes,
-              onChanged: (state) {
-                setState(() {
-                  notificacoes = state;
-                });
-              }),
-          SwitchListTile(
-            activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
-            title: const Text("Destravar as portas do carro"),
-            value: notificacoes,
-            onChanged: (state) {
-              setState(() {
-                notificacoes = state;
-              });
-            },
-          ),
           SwitchListTile(
             activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
             title: const Text("Travar as portas do carro"),
-            value: notificacoes,
+            value: portas,
             onChanged: (state) {
               setState(() {
-                notificacoes = state;
+                portas = state;
               });
             },
           ),
           SwitchListTile(
             activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
             title: const Text("Ligar todas as luzes internas"),
-            value: notificacoes,
+            value: luzes,
             onChanged: (state) {
               setState(() {
-                notificacoes = state;
+                luzes = state;
               });
             },
           ),
           SwitchListTile(
             activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
             title: const Text("Ligar faróis"),
-            value: notificacoes,
+            value: ligarFarois,
             onChanged: (state) {
               setState(() {
-                notificacoes = state;
+                ligarFarois = state;
+              });
+            },
+          ),
+          SwitchListTile(
+            activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
+            title: const Text("Piscar faróis"),
+            value: piscarFarois,
+            onChanged: (state) {
+              setState(() {
+                piscarFarois = state;
               });
             },
           ),
           SwitchListTile(
             activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
             title: const Text("Destravar o porta-malas"),
-            value: notificacoes,
+            value: portaMalas,
             onChanged: (state) {
               setState(() {
-                notificacoes = state;
+                portaMalas = state;
               });
             },
           ),
           SwitchListTile(
             activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
-            title: const Text("Enviar notificações por e-mail"),
-            value: notificacoes,
+            title: const Text("Disparar alarme"),
+            value: alarme,
             onChanged: (state) {
               setState(() {
-                notificacoes = state;
+                alarme = state;
               });
             },
           ),
-          SwitchListTile(
-            activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
-            title: const Text("Abrir vidro da direita do motorista"),
-            value: notificacoes,
-            onChanged: (state) {
-              setState(() {
-                notificacoes = state;
-              });
-            },
+          const Divider(
+            height: 20,
           ),
-          SwitchListTile(
-            activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
-            title: const Text("Abrir vidro da esquerda do motorista"),
-            value: notificacoes,
-            onChanged: (state) {
-              setState(() {
-                notificacoes = state;
-              });
-            },
+          Container(
+            padding: const EdgeInsetsDirectional.only(start: 20),
+            height: 40,
+            child: const Text(
+                style: TextStyle(fontSize: 17),
+                "Abrir vidros:",
+                textAlign: TextAlign.justify),
           ),
-          SwitchListTile(
-            activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
-            title: const Text("Abrir vidro da direita do passageiro"),
-            value: notificacoes,
-            onChanged: (state) {
-              setState(() {
-                notificacoes = state;
-              });
-            },
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Text(
+                  style: TextStyle(fontSize: 16),
+                  "Direita do motorista",
+                  textAlign: TextAlign.justify),
+              Slider(
+                value: _vidroDireitaMotorista,
+                max: 100,
+                divisions: 10,
+                label: _vidroDireitaMotorista.round().toString(),
+                onChanged: (double value) {
+                  setState(() {
+                    _vidroDireitaMotorista = value;
+                  });
+                },
+              ),
+            ],
           ),
-          SwitchListTile(
-            activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
-            title: const Text("Abrir vidro da esquerda do passageiro"),
-            value: notificacoes,
-            onChanged: (state) {
-              setState(() {
-                notificacoes = state;
-              });
-            },
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text(
+                  style: TextStyle(fontSize: 16),
+                  "Esquerda do motorista",
+                  textAlign: TextAlign.justify),
+              Slider(
+                value: _vidroEsquerdaMotorista,
+                max: 100,
+                divisions: 10,
+                label: _vidroEsquerdaMotorista.round().toString(),
+                onChanged: (double value) {
+                  setState(() {
+                    _vidroEsquerdaMotorista = value;
+                  });
+                },
+              ),
+            ],
           ),
-          SwitchListTile(
-            activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
-            title: const Text("Abrir todos os vidros"),
-            value: notificacoes,
-            onChanged: (state) {
-              setState(() {
-                notificacoes = state;
-              });
-            },
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Text(
+                  style: TextStyle(fontSize: 16),
+                  "Direita do passageiro",
+                  textAlign: TextAlign.justify),
+              Slider(
+                value: _vidroDireitaPassageiro,
+                max: 100,
+                divisions: 10,
+                label: _vidroDireitaPassageiro.round().toString(),
+                onChanged: (double value) {
+                  setState(() {
+                    _vidroDireitaPassageiro = value;
+                  });
+                },
+              ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const Text(
+                  style: TextStyle(fontSize: 16),
+                  "Esquerda do passageiro",
+                  textAlign: TextAlign.justify),
+              Slider(
+                value: _vidroEsquerdaPassageiro,
+                max: 100,
+                divisions: 10,
+                label: _vidroEsquerdaPassageiro.round().toString(),
+                onChanged: (double value) {
+                  setState(() {
+                    _vidroEsquerdaPassageiro = value;
+                  });
+                },
+              ),
+            ],
           ),
         ]));
   }

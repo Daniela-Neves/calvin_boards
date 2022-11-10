@@ -24,11 +24,11 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                   Navigator.pop(context);
                 }),
             Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Column(
                   children: const <Widget>[
-                    SizedBox(width: 200, height: 100),
+                    SizedBox(width: 200, height: 40),
                     SizedBox(
                       height: 20,
                     ),
@@ -38,12 +38,12 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
                       ),
-                      textAlign: TextAlign.center,
+                      textAlign: TextAlign.justify,
                     )
                   ],
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 50,
                 ),
                 SizedBox(
                   width: double.infinity,

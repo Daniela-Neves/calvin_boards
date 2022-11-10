@@ -2,7 +2,6 @@ import 'package:email_validator/email_validator.dart';
 import '../models/sign_up.dart';
 import '../repository/sign_up_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -54,7 +53,7 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 60,
             alignment: Alignment.centerLeft,
             decoration: const BoxDecoration(
-              color: Color(0xFF041E42),
+              color: Color(0xFFFFCD12),
               borderRadius: BorderRadius.all(
                 Radius.circular(5),
               ),
@@ -98,7 +97,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     Navigator.of(context).pop(signUp);
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text("Essa ID já está cadastrada.")));
+                        content: Text("Esse e-mail já está cadastrado.")));
                   }
                 },
               ),

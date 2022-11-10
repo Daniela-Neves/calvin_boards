@@ -13,7 +13,6 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   bool notificacoes = true;
-  bool modoNoturno = true;
   bool email = true;
   bool sms = true;
 
@@ -59,16 +58,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   notificacoes = state;
                 });
               }),
-          SwitchListTile(
-            activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
-            title: const Text("Tema Noturno"),
-            value: modoNoturno,
-            onChanged: (state) {
-              setState(() {
-                modoNoturno = state;
-              });
-            },
-          ),
           SwitchListTile(
             activeColor: Theme.of(context).toggleButtonsTheme.selectedColor,
             title: const Text("Enviar notificações por e-mail"),

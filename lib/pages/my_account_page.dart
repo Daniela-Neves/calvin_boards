@@ -80,7 +80,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
             height: 60,
             alignment: Alignment.centerLeft,
             decoration: const BoxDecoration(
-              color: Color(0xFF041E42),
+              color: Color(0xFFFFCD12),
               borderRadius: BorderRadius.all(
                 Radius.circular(5),
               ),

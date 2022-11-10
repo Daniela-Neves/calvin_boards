@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../components/default_drawer.dart';
-import 'about_us.dart';
 import 'home_page.dart';
+import 'info_stellantis.dart';
 
-class InfoStellantisPage extends StatefulWidget {
-  const InfoStellantisPage({Key? key}) : super(key: key);
+class AboutUsPage extends StatefulWidget {
+  const AboutUsPage({Key? key}) : super(key: key);
 
   @override
-  State<InfoStellantisPage> createState() => _InfoStellantisPageState();
+  State<AboutUsPage> createState() => _AboutUsPageState();
 }
 
-class _InfoStellantisPageState extends State<InfoStellantisPage> {
+class _AboutUsPageState extends State<AboutUsPage> {
   late SignUpProvider signUpProvider;
 
   @override
@@ -26,23 +26,42 @@ class _InfoStellantisPageState extends State<InfoStellantisPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: _buildBottomNavigationBar(),
-        appBar: AppBar(title: const Text("Stellantis")),
+        appBar: AppBar(title: const Text("Equipe")),
         drawer: ChangeNotifierProvider<SignUpProvider>.value(
             builder: (context, child) => DefaultDrawer(),
             value: Provider.of<SignUpProvider>(context)),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Image.asset('assets/Logotipo-Stellantis_2.jpg'),
-              const Text(
-                "Stellantis é um grupo automotivo franco-ítalo-americano multinacional baseado nos Países Baixos, formado a partir da união da montadora ítalo-americana"
-                "Fiat Chrysler Automobiles com a montadora francesa PSA Group, após a conclusão de um acordo de fusão 50-50. Registrado nos Países Baixos, o grupo reúne 14 marcas: "
-                "Abarth, Alfa Romeo, Chrysler, Citroën, Dodge, DS, Fiat, Jeep, Lancia, Maserati, Opel, Peugeot, Ram e Vauxhall, "
-                "com presença em mais de 130 países, com produção em 30 países."
-                "Em termos de vendas globais de veículos em 2021, a Stellantis foi a quinta maior montadora do mundo atrás da Toyota, "
-                "Volkswagen, Hyundai e General Motors.",
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: const [
+              Text("Daniela Neves Santos",
+                textAlign: TextAlign.justify,
+                style: TextStyle(fontSize: 16),
+              ),
+              Text("RM - 86381",
+                textAlign: TextAlign.justify,
+                style: TextStyle(fontSize: 16),
+              ),
+              Divider(
+                height: 15,
+              ),
+              Text("Geovanne Douglas Macario Santos de Macedo",
+                textAlign: TextAlign.justify,
+                style: TextStyle(fontSize: 16),
+              ),
+              Text("RM - 86306",
+                textAlign: TextAlign.justify,
+                style: TextStyle(fontSize: 16),
+              ),
+              Divider(
+                height: 15,
+              ),
+              Text("Nicolas Morais Santos",
+                textAlign: TextAlign.justify,
+                style: TextStyle(fontSize: 16),
+              ),
+              Text("RM - 84393",
                 textAlign: TextAlign.justify,
                 style: TextStyle(fontSize: 16),
               ),

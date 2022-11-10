@@ -1,9 +1,11 @@
 import 'package:eletroCar/components/default_drawer.dart';
+import 'package:eletroCar/pages/info_stellantis.dart';
 import 'package:eletroCar/providers/signup_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../models/sign_up.dart';
+import 'about_us.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -51,11 +53,26 @@ class _HomePageState extends State<HomePage> {
   }
 
   BottomNavigationBar _buildBottomNavigationBar() {
-    return BottomNavigationBar(items: const <BottomNavigationBarItem>[
-      BottomNavigationBarItem(
-          icon: Icon(Icons.directions_car), label: "Veículos"),
-      BottomNavigationBarItem(icon: Icon(Icons.star), label: "Stellantis"),
-      BottomNavigationBarItem(icon: Icon(Icons.people), label: "Sobre nós")
-    ]);
+    return BottomNavigationBar(
+        onTap: (value) {
+          if (value == 0) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const HomePage()));
+          } else if (value == 1) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const InfoStellantisPage()));
+          } else if (value == 2) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => const AboutUsPage()));
+          }
+        },
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: Icon(Icons.directions_car), label: "Veículos"),
+          BottomNavigationBarItem(icon: Icon(Icons.star), label: "Stellantis"),
+          BottomNavigationBarItem(icon: Icon(Icons.people), label: "Equipe")
+        ]);
   }
 }

@@ -1,3 +1,4 @@
+import 'package:eletroCar/pages/control.dart';
 import 'package:eletroCar/pages/electropost_page.dart';
 import 'package:eletroCar/pages/home_page.dart';
 import 'package:eletroCar/pages/settings.dart';
@@ -28,7 +29,20 @@ class DefaultDrawer extends Drawer {
       ),
           ListTile(
             trailing: const Icon(Icons.arrow_forward_ios),
-            leading: const Icon(Icons.refresh),
+            leading: const Icon(Icons.house_sharp),
+            title: const Text("Home"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomePage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            trailing: const Icon(Icons.arrow_forward_ios),
+            leading: const Icon(Icons.map_sharp),
             title: const Text("Pontos de Recarga"),
             onTap: () {
               Navigator.push(
@@ -41,26 +55,13 @@ class DefaultDrawer extends Drawer {
           ),
       ListTile(
         trailing: const Icon(Icons.arrow_forward_ios),
-        leading: const Icon(Icons.map_sharp),
-        title: const Text("Mapa"),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomePage(),
-            ),
-          );
-        },
-      ),
-      ListTile(
-        trailing: const Icon(Icons.arrow_forward_ios),
         leading: const Icon(Icons.control_camera_sharp),
         title: const Text("Controle"),
         onTap: () {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Container(),
+              builder: (context) => ControlPage(),
             ),
           );
         },

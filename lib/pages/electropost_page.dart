@@ -48,6 +48,7 @@ class ElectropostPageState extends State<ElectropostPage> {
                       itemBuilder: ((context, index) {
                         var electroposts = followings[index];
                         return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                              Text(
                               electroposts.nome,
@@ -55,13 +56,11 @@ class ElectropostPageState extends State<ElectropostPage> {
                             ),
                             Text(
                               electroposts.endereco,
-                              style: const TextStyle(color: Colors.black),
                             ),
                             Text(
                               electroposts.telefone,
-                              style: const TextStyle(color: Colors.black),
                             ),
-                            const SizedBox(height: 30),
+                            const SizedBox(height: 20),
                           ],
                         );
                       }),

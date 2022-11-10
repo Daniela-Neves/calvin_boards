@@ -13,7 +13,6 @@ class AppThemeData {
 
   ThemeData get materialThemeDark {
     return ThemeData(
-      //appBarTheme: const AppBarTheme(backgroundColor: Color(0xff004f88)),
       colorScheme:
           ColorScheme.fromSwatch().copyWith(brightness: Brightness.dark),
     );

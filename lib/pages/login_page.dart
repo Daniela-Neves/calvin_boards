@@ -137,10 +137,8 @@ class _LoginPageState extends State<LoginPage> {
                       _senhaController.text = '';
                       return;
                     }
-
                     Provider.of<SignUpProvider>(context, listen: false)
                         .setSignUp(usuario);
-
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
@@ -185,7 +183,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ) as SignUp;
                     setState(() {
-                      _emailController.text = signUp.id.toString();
+                      _emailController.text = signUp.email.toString();
                     });
                   },
                   style: TextButton.styleFrom(
@@ -215,13 +213,7 @@ class _LoginPageState extends State<LoginPage> {
 
   TextFormField _buildEmailInput() {
     return TextFormField(
-      // autofocus: true,
       controller: _emailController,
-      validator: (value) {
-        if (value == null) {
-          return "Digite seu e-mail";
-        }
-      },
       decoration: const InputDecoration(
         labelText: "Email:",
         labelStyle: TextStyle(
