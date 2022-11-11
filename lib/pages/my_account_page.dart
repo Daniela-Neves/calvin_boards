@@ -129,7 +129,7 @@ class _MyAccountPageState extends State<MyAccountPage> {
                     Provider.of<SignUpProvider>(context, listen: false)
                         .setSignUp(signUp);
                   } on DatabaseException catch (e) {
-                    String mensagem = "Essa ID já está cadastrada.";
+                    String mensagem = "Esse e-email já está cadastrado.";
 
                     if (!e.isUniqueConstraintError()) {
                       mensagem = "Erro ao salvar.";

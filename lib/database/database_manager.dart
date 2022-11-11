@@ -9,12 +9,12 @@ class DatabaseManager {
 
   _onCreate(Database db, _) async {
     await db.execute(_cadastros);
-    await db.execute(_createCarsTable);
+    await db.execute(_cars);
   }
 
   String get _cadastros => '''
     CREATE TABLE IF NOT EXISTS user (
-      user_id INTEGER PRIMARY KEY,
+      user_id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       email TEXT NOT NULL,
       password TEXT NOT NULL, 
@@ -22,16 +22,13 @@ class DatabaseManager {
     )
   ''';
 
-  String get _createCarsTable => '''
+  String get _cars => '''
     CREATE TABLE IF NOT EXISTS car (
-      car_id INTEGER PRIMARY KEY,
+      car_id INTEGER PRIMARY KEY AUTOINCREMENT,
       manufacturer TEXT NOT NULL,
       model TEXT NOT NULL,
       plate TEXT NULL,
-      yer INTEGER,
-      is_hybrid NUMERIC(1,0) NOT NULL,
-      charge_percentage INTEGER NULL,
-      fuel_level INTEGER NULL,
+      year INTEGER NULL,
       mileage INTEGER NULL
     )
   ''';

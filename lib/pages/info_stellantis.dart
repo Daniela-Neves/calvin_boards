@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../components/default_drawer.dart';
 import 'about_us.dart';
+import 'car_list_page.dart';
 import 'home_page.dart';
 
 class InfoStellantisPage extends StatefulWidget {
@@ -56,7 +57,7 @@ class _InfoStellantisPageState extends State<InfoStellantisPage> {
         onTap: (value) {
           if (value == 0) {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const HomePage()));
+                MaterialPageRoute(builder: (context) => const CarListPage()));
           } else if (value == 1) {
             Navigator.push(
                 context,

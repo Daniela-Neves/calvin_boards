@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../models/sign_up.dart';
 import 'about_us.dart';
+import 'car_list_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -29,7 +30,6 @@ class _HomePageState extends State<HomePage> {
     SignUpProvider? signUpProvider =
         Provider.of<SignUpProvider>(context, listen: false);
     SignUp signUp = signUpProvider.getUsuario()!;
-    nome = signUp.nome.toString();
   }
 
   @override
@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
         onTap: (value) {
           if (value == 0) {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const HomePage()));
+                MaterialPageRoute(builder: (context) => const CarListPage()));
           } else if (value == 1) {
             Navigator.push(
                 context,

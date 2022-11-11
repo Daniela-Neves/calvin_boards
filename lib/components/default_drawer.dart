@@ -7,12 +7,14 @@ import 'package:eletroCar/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../pages/car_page.dart';
+
 class DefaultDrawer extends Drawer {
   DefaultDrawer({super.key});
 
   final List<Page> pages = [
     Page(
-        nome: "Home",
+        nome: "Veículos",
         icone: Icons.home,
         builder: (context) => const HomePage()),
   ];

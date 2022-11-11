@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../components/default_drawer.dart';
+import 'car_list_page.dart';
 import 'home_page.dart';
 import 'info_stellantis.dart';
 
@@ -75,7 +76,7 @@ class _AboutUsPageState extends State<AboutUsPage> {
         onTap: (value) {
           if (value == 0) {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const HomePage()));
+                MaterialPageRoute(builder: (context) => const CarListPage()));
           } else if (value == 1) {
             Navigator.push(
                 context,

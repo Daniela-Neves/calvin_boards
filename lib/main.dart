@@ -1,3 +1,5 @@
+import 'package:eletroCar/pages/car_page.dart';
+import 'package:eletroCar/pages/car_page_details.dart';
 import 'package:eletroCar/pages/home_page.dart';
 import 'package:eletroCar/pages/info_stellantis.dart';
 import 'package:eletroCar/pages/login_page.dart';
@@ -34,7 +36,9 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const LoginPage(),
           '/login': (context) => const LoginPage(),
-          '/signup': (context) => const SignUpPage()
+          '/signup': (context) => const SignUpPage(),
+          '/carro-cadastro': (context) => CarPage(),
+          '/carro-detalhes': (context) => const CarDetailsPage(),
         },
         initialRoute: '/',
       ),
